@@ -1,0 +1,1 @@
+<html><head><meta http-equiv="refresh" content="0; url=/how_to/adding_your_own_physics_engine_plugin_to_babylon.js" /></head><body>Redirect..</body></html>

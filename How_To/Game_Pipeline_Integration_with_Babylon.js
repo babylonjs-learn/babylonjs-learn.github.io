@@ -1,0 +1,1 @@
+<html><head><meta http-equiv="refresh" content="0; url=/how_to/game_pipeline_integration_with_babylon.js" /></head><body>Redirect..</body></html>
