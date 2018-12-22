@@ -1,0 +1,249 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item active" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>resources</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>3DSMax</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#how-to-install-the-3ds-max-plugin">How To Install the 3DS Max plugin</a></li>
+<li><a href="#features">Features</a><ul>
+<li><a href="#exported-features">Exported features</a></li>
+<li><a href="#scene-properties">Scene properties</a></li>
+<li><a href="#object-properties">Object properties</a></li>
+<li><a href="#light-properties">Light properties</a></li>
+<li><a href="#camera-properties">Camera properties</a></li>
+<li><a href="#the-exporter-window">The exporter window</a></li>
+<li><a href="#export-with-maxscript">Export with MaxScript</a></li>
+</ul>
+</li>
+<li><a href="#what-you-should-know">What you should know</a><ul>
+<li><a href="#camera">Camera</a></li>
+<li><a href="#light">Light</a></li>
+<li><a href="#pivot-and-position">Pivot and position</a></li>
+<li><a href="#negative-scale">Negative scale</a></li>
+<li><a href="#mirror-by-transform">Mirror by Transform</a></li>
+<li><a href="#animations">Animations</a></li>
+<li><a href="#consideration-about-bones">Consideration about bones</a></li>
+<li><a href="#textures-image-format">Textures image format</a></li>
+<li><a href="#specular-color-and-specular-level">Specular color and specular level</a></li>
+<li><a href="#physical-materials">Physical materials</a></li>
+<li><a href="#arnold-materials">Arnold materials</a></li>
+<li><a href="#shell-material">Shell material</a></li>
+<li><a href="#directx-shader">DirectX Shader</a></li>
+<li><a href="#texture-transparency">Texture transparency</a></li>
+<li><a href="#unlit-material">Unlit material</a></li>
+</ul>
+</li>
+<li><a href="#using-the-exporter">Using the exporter</a></li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="how-to-install-the-3ds-max-plugin" class="anchor" href="#how-to-install-the-3ds-max-plugin"></a>How To Install the 3DS Max plugin</h1><p>The plugin is designed for 3DS Max 2015 or later. To download it, go to the Github project (<a href="https://github.com/BabylonJS/Exporters/tree/master/3ds%20Max">https://github.com/BabylonJS/Exporters/tree/master/3ds%20Max</a>).  </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/ee96637476e56bf4d115196ce20c51aa278517e7/222ab/img/exporters/3dsmax/1_github.jpg" alt="github"></p>
+<p>In this folder, you can find the source code of the exporter if you want to update it, and a zip file <em>Max2Babylon-XX.zip</em> (where XX is the exporter version, currently 1.1.0). Click on the zip file, and click on the <em>Download</em> button. </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/0ef22a91c8429392cee3ef97d1ee6bb6f0d5affe/4393c/img/exporters/3dsmax/2_github_dl.jpg" alt="github download"></p>
+<p>By default, Windows blocks all .dll files coming from the web, so we have to unblock them first. Select the zip file, and with a right click select <em>Properties</em>, select <em>Unblock</em>, and then <em>OK</em>. </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/b42c2819b12a5afae28ec5c30d671edf5076c442/27fe1/img/exporters/3dsmax/3_dll_unlocking.jpg" alt="dll unblocking"></p>
+<p>Then, extract the content of the zip file on your computer, and open the directory corresponding to your 3DS Max version. Finally, make sure 3ds Max is not running, and move all .dll files into the installation directory of 3DS Max (in <code>C:/Programs/Autodesk/3ds Max 2015/bin/assemblies</code>). The next time you will start 3ds Max, the plugin will be automatically launched, and a new tab should appear: </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/fab1a8bca64e39331d0cfb507fe7b6a49a4ca8bb/bd49e/img/exporters/3dsmax/4_plugin_visible.jpg" alt="plugin visible"></p>
+<p>Congratulations! You did it!</p>
+<h1><a name="features" class="anchor" href="#features"></a>Features</h1><h2><a name="exported-features" class="anchor" href="#exported-features"></a>Exported features</h2><ul>
+<li><p><em>Scene</em></p>
+<ul>
+<li>Clear color</li>
+<li>Ambient color</li>
+<li>Fog</li>
+<li>Environment texture (.dds)</li>
+</ul>
+</li>
+<li><p><em>Cameras</em></p>
+<ul>
+<li>Fov</li>
+<li>MinZ</li>
+<li>MaxZ</li>
+<li>Speed (*)</li>
+<li>Inertia (*)</li>
+<li>Collisions (*)</li>
+<li>Position</li>
+<li>Target / Rotation</li>
+<li>Animations: Position, Target, Fov</li>
+</ul>
+</li>
+<li><p><em>Lights</em></p>
+<ul>
+<li>Omni / spot / directional / Ambient(Hemispheric)</li>
+<li>Shadows maps for directional lights (Variance shadow maps can be actived by checking [Absolute Map Bias] in light properties)</li>
+<li>Inclusion / exclusion lists</li>
+<li>Position / direction</li>
+<li>Intensity</li>
+<li>Diffuse</li>
+<li>Specular</li>
+<li>Animations: Position, direction, intensity, diffuse</li>
+</ul>
+</li>
+<li><p><em>Meshes</em></p>
+<ul>
+<li>Visibility</li>
+<li>Renderable</li>
+<li>Shadows</li>
+<li>Collisions (*)</li>
+<li>Pickable (*)</li>
+<li>Position / rotation / scaling</li>
+<li>Smoothing groups</li>
+<li>Skin</li>
+<li>Geometry (position, normal, color, texture coordinates (2 channels))</li>
+<li>Instances</li>
+<li>Morph targets</li>
+<li>Show Bounding box and submeshes bounding boxes (*)</li>
+<li>Animations: Position, scaling, rotation, visibility, bones, morph weights</li>
+</ul>
+</li>
+<li><p><em>Materials</em></p>
+<ul>
+<li>Multi-materials</li>
+<li>Alpha</li>
+<li>Diffuse color and texture</li>
+<li>Ambient color and texture</li>
+<li>Specular color and texture</li>
+<li>Bump</li>
+<li>Emissive color and texture</li>
+<li>Opacity texture</li>
+<li>Reflection texture</li>
+<li>Fresnel for diffuse, emissive, opacity and reflection</li>
+<li>Physical materials (PBR)</li>
+<li>Standard Surface Arnold material</li>
+<li>Unlit attribute</li>
+</ul>
+</li>
+<li><p><em>Textures</em></p>
+<ul>
+<li>UV offset / scaling / angle</li>
+<li>Level</li>
+<li>Coordinates mode (Spherical, planar, explicit)</li>
+<li>Wrapping (Clamp, mirror, wrap)</li>
+</ul>
+</li>
+<li><p>Hierarchies are exported</p>
+</li>
+</ul>
+<p>(*): Through custom UI</p>
+<h2><a name="scene-properties" class="anchor" href="#scene-properties"></a>Scene properties</h2><p>If you right-click on your scene, you will have a menu <em>Babylon -&gt; Babylon Properties:</em>
+All the available blend modes are listed below:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/3ec6132e933543b8568db8e816ac5976b97e138b/6eac6/img/exporters/3dsmax/5_properties_button.jpg" alt="Property button"></p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/91eb0404e0bd6c81b2a19747e484cc3e98487e55/c2a04/img/exporters/3dsmax/6_properties_window.jpg" alt="Scene properties"></p>
+<p>The scene properties allow you to do these things:</p>
+<ul>
+<li>Set the scene gravity</li>
+<li><strong>Export quaternions for all nodes instead of Euler angles</strong>. If this option is selected, an exported model rotation won’t be updated by setting its <code>rotation</code> parameter. Instead, you will have to use the <code>rotationQuaternion</code> parameter.</li>
+<li><strong>Do not optimize animations</strong>. You should check this option if animations are not exported correctly.</li>
+<li>Create a default skybox from the environment texture when scene is being loaded. An environmnent texture must be setup to enable this feature.</li>
+<li>Set the blur effect intensity applied to the skybox texture. By default it is slightly blurred. Setting value to 0 disables the blur effect.</li>
+<li><strong>Add a default light, if no light is exported</strong>. If this option is checked and there is no light selected for the export, an hemispheric light is added in the exported scene. By default this option is checked.</li>
+<li><strong>Export normals</strong> and <strong>Export tangents</strong> checkboxes allow you to control the morph target export. Note that if you want to export the target morph tangent, you have to check both the <strong>Export tangents</strong> checkbox and the other <strong>Export tangents</strong> checkbox of <a href="#the-exporter-window">the exporter window</a>.</li>
+</ul>
+<h2><a name="object-properties" class="anchor" href="#object-properties"></a>Object properties</h2><p>With a right click on a mesh, select the menu <em>Babylon -&gt; Babylon Properties</em> to open the window Object Properties:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/f7f8a777ac73a3af8b4779ebe0a6bafbab156d7e/40d40/img/exporters/3dsmax/7_object_properties_window.jpg" alt="Object properties"></p>
+<p>With this window, you can set the following properties:</p>
+<ul>
+<li><strong>Check collisions</strong>: Activate it to enable collisions between the camera and this object. False by default.</li>
+<li><strong>Do not export</strong>: Self-explanatory, this object won’t be exported. False by default.</li>
+<li><strong>Pickable</strong>: This object can be picked with the mouse. False by default.</li>
+<li><strong>Try to optimize vertices</strong>: The Babylon exporter will try to optimize the number of vertices to export instead of exporting everything naively (if a vertex is part of two faces, this vertex won’t be exported twice with this option checked). False by default.</li>
+<li><strong>Show bounding box</strong>: Display the bounding box of this object in the scene. False by default.</li>
+<li><strong>Show submeshes bounding boxes</strong>. Same as above. False by default.</li>
+<li><strong>Alpha index</strong>: Used to sort transparent meshes. The mesh with the bigger alpha index is rendered first (then the depth is taken into account). Default value is 1000.</li>
+<li><strong>Tag</strong>: Used to add a custom tag to this object. Empty by default.</li>
+<li><strong>Auto animate</strong>: All animations for this object will start when this object is being added to the scene. True by default.</li>
+<li><strong>From/To/Loop</strong>: The starting and ending frame for this object, and if the animation loops. Default values are 0, 100 and true.</li>
+<li><strong>Impostor</strong>: Add an impostor to this object. Default is none.</li>
+<li><strong>Mass/Friction/Restitution</strong>: set the physics value of the impostor. Default values are 0.20, 0.20, and 0.20. </li>
+</ul>
+<h2><a name="light-properties" class="anchor" href="#light-properties"></a>Light properties</h2><p>If you create a standard light and right click on it, select the menu Babylon -&gt; Babylon Properties to display this window: </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/12dc31d44235da8c14701ba26bebe57f46fbd07e/70ac6/img/exporters/3dsmax/8_light_properties_window.jpg" alt="Light properties"></p>
+<p>The options <strong>Do not export</strong>, <strong>Tag</strong> and <strong>animations</strong> are exactly the same as the Object properties window.</p>
+<h2><a name="camera-properties" class="anchor" href="#camera-properties"></a>Camera properties</h2><p><img src="https://d33wubrfki0l68.cloudfront.net/c4e8099378e4e975e85f98655d5a3ac132f94956/0b188/img/exporters/3dsmax/9_camera_properties_window.jpg" alt="Camera properties"></p>
+<p>In this window, you can choose the kind of camera you want to create in Babylon.js. You can also:</p>
+<ul>
+<li><strong>Check collision</strong>: The camera can collide against objects where check collisions is activated.</li>
+<li><strong>Apply gravity</strong>: The camera will be subject to the scene’s gravity (in the Scene properties window)</li>
+<li><strong>Ellipsoid</strong>: With collisions enabled, the camera will be wrapped in an ellipsoid, the size of which can be set here.</li>
+<li><strong>Speed / inertia</strong>: The speed and inertia of the camera. Default values are 1 and 0.9.</li>
+<li><strong>Animations</strong>: Same as in Object properties window. </li>
+<li><strong>Tag</strong>: Same as in Object properties window. </li>
+</ul>
+<h2><a name="the-exporter-window" class="anchor" href="#the-exporter-window"></a>The exporter window</h2><p>When your scene is ready to be exported, click on the <strong>Babylon</strong> tab on the top menu, and click on <strong>Babylon File Exporter</strong> to display the exporter window. </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/7c0b440ff88de7c06d111ac00279666c682d5182/d7ebb/img/exporters/3dsmax/10_export_window.jpg" alt="export window"></p>
+<p>This window is composed of 3 panels:</p>
+<ul>
+<li>A top panel with a file path and a button. With this panel, you choose where your Babylon file will be exported by clicking on the right button.</li>
+<li>Several options and two buttons Export and Export &amp; Run</li>
+<li>A log panel </li>
+</ul>
+<p>The <em>Scale factor</em> can be used to rescale the whole world. If you set a scale factor equal to 100, the resulting scene will be 100 times smaller (1%). By default the scale factor is equal to 1, meaning no rescale.</p>
+<p>The <em>Texture quality</em> sets the convertion quality of bitmap to JPEG. At 100 (the maximum value), it gives the highest image quality but no file size reduction. On the contrary at 0 (the minimum value), it gives the lowest image quality but the greatest file size reduction. By default the <em>Texture quality</em> is set to 100.</p>
+<p>The <em>Merge AO map</em> option enables the merging of the Ambient Occlusion shadow map (stored on Diffuse Roughness slot) with the Metalness and Roughness map.</p>
+<p>The <em>write textures</em> option enables writing the textures to the output directory.  Note that this is <em><strong>force enabled</strong></em> when exporting glb files.</p>
+<p>The <em>overwrite textures</em> option enables overwriting existing textures in the output directory.</p>
+<p>The <em>Use Draco comression</em> option is only available for gltf and glb output format. More detail <a href="/resources/3DSMax_to_glTF#draco-compression">here</a>.</p>
+<p>The <em>Export</em> button should be used to create the Babylon file representing your scene. The <em>Export &amp; Run</em> button will also create the Babylon file, but will also launch your default browser and run the newly made Babylon file. This button is very useful if you just want to test the render of your scene in Babylon.js. </p>
+<p>As babylon.js script is retrieved directly from the official website directly, you should have internet access in order to correctly use Export &amp; Run.  </p>
+<p>The log panel indicates in real time which mesh has been exported, which material, and if there are any problems with these objects. </p>
+<h2><a name="export-with-maxscript" class="anchor" href="#export-with-maxscript"></a>Export with MaxScript</h2><p>You can also export the scene using MaxScript. A sample script file is available <a href="https://github.com/BabylonJS/Exporters/blob/master/3ds%20Max/MaxScripts/Max2Babylon.ms">here</a>.</p>
+<p>You will need to update the path to your babylon dll and the output path.</p>
+<p>All parameters are editable. Default values are the same as in the exporter window except for <em>autoSave3dsMaxFile</em> which is false.</p>
+<p>Logs are limited to errors, warnings and core messages to avoid excessive amount of prints.</p>
+<h1><a name="what-you-should-know" class="anchor" href="#what-you-should-know"></a>What you should know</h1><h2><a name="camera" class="anchor" href="#camera"></a>Camera</h2><p>If you want to test your scene right away by using the button Export &amp; Run, your scene should have a camera created. Otherwise, the log panel will display the warning “No camera defined” and a default one would be created at runtime but won&#39;t be exported in .babylon file. </p>
+<p>If you have more than one camera, the first one will be set as activeCamera in Babylon. </p>
+<h2><a name="light" class="anchor" href="#light"></a>Light</h2><p>If you don’t have any lights in your scene, the exporter will add a hemispheric light by default. The log panel will display the warning “No light defined – A default hemispheric light was added for your convenience”. </p>
+<h2><a name="pivot-and-position" class="anchor" href="#pivot-and-position"></a>Pivot and position</h2><p>The object position will be defined with your object pivot position. In the image below, the pivot position is not at the center of the box: updating the object position in Babylon.js will update this pivot position, and not the box position.</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/021a7eb0278677f1d4ef07fc5016afbc210148ef/5f341/img/exporters/3dsmax/10_pivot.jpg" alt="pivot"></p>
+<h2><a name="negative-scale" class="anchor" href="#negative-scale"></a>Negative scale</h2><p>Using a negative scale will reverse the normal of your objects. These objects will appear correctly in 3DSMax, but incorrectly in a Babylon.js application.</p>
+<h2><a name="mirror-by-transform" class="anchor" href="#mirror-by-transform"></a>Mirror by Transform</h2><p>Using mirror tool affecting <strong>Transform</strong> will make mirrored object appear correctly in 3DSMax, but incorrectly in a Babylon.js application. Consider using mirror tool affecting <strong>Geometry</strong> instead.</p>
+<p>If mirror by <strong>Transform</strong> is what you need (or what you got), you can fix this issue doing the following after mirroring:</p>
+<ul>
+<li>apply a ResetXForm</li>
+<li>make object editable: add an Edit modifier or collapse Xform modifier</li>
+<li>flip normals</li>
+</ul>
+<p>Be aware animations for this object will likely be incorrect after that.</p>
+<h2><a name="animations" class="anchor" href="#animations"></a>Animations</h2><p>Cameras, lights and meshes have custom properties (Right-click and select &quot;Babylon properties&quot; menu) to automatically launch animations at startup.</p>
+<p>Animations are exported by sampling keyframes which can generate a lot of data. To reduce file size, you can opt to use linear interpolation instead of bezier or TCB.</p>
+<p>Also, if animations are not exported correctly, you may want to disable animation optimization by using the Babylon properties menu on the scene (Right-click on the scene and select &quot;Babylon properties&quot; menu).</p>
+<h2><a name="consideration-about-bones" class="anchor" href="#consideration-about-bones"></a>Consideration about bones</h2><p>To ensure that bones are correctly exported, you have to use the Skin modifier. Skin should be positioned at origin. <a href="/resources/Bones_influences_per_vertex">More info here</a></p>
+<h2><a name="textures-image-format" class="anchor" href="#textures-image-format"></a>Textures image format</h2><p>Babylon engine fully supports the following image formats: jpg, bmp, png, gif, tga. You are adviced to use those formats for your textures when exporting to Babylon.</p>
+<p>Note that the exporter also supports textures with tif and dds formats. But, those textures will be automatically converted to png by the exporter to ensure compatibility with the Babylon engine.</p>
+<p>About dds format, Babylon engine partially supports this format depending on compression. To avoid any issue with this format, the exporter automatically converts it to png as stated previously. As an exception, the dds format is allowed for the environmnent texture and will not be automatically converted.</p>
+<h2><a name="specular-color-and-specular-level" class="anchor" href="#specular-color-and-specular-level"></a>Specular color and specular level</h2><p>Specular color and specular level are split into two attributes in 3ds Max while merged in Babylon.</p>
+<p>For the global value, the specular color and level are multiplied to obtain the resulting specular color in Babylon.</p>
+<p>For the texture, the Babylon specular color map is either:</p>
+<ul>
+<li>directly the specular color map setup in 3ds max when the specular level map is not defined. To ensure backward compatibility, the global specular level is ignored in this case. <strong>It is assumed the specular color map is already pre-multiplied by the desired amount</strong>.</li>
+<li>a mix between specular color map and specular level map. Maps are multiplied by the exporter.</li>
+<li>a mix between specular level map and global specular color. The global specular color is multiplied to each pixel of the specular level map.</li>
+</ul>
+<p>Even though a specular level map should be a grayscale, its 3 components (RGB) are multiplied individually to the specular color.</p>
+<h2><a name="physical-materials" class="anchor" href="#physical-materials"></a>Physical materials</h2><p>The handling of physical materials is mimic from glTF format. <a href="/resources/3DSMax_to_glTF#pbr-materials">Detailed explanations here</a></p>
+<h2><a name="arnold-materials" class="anchor" href="#arnold-materials"></a>Arnold materials</h2><p>The handling of arnold materials is mimic from glTF format. <a href="/resources/3DSMax_to_glTF#standard-surface-arnold-material">Detailed explanations here</a></p>
+<h2><a name="shell-material" class="anchor" href="#shell-material"></a>Shell material</h2><p>The handling of the shell material is mimic from glTF format. <a href="/resources/3DSMax_to_glTF#shell-material">Detailed explanations here</a></p>
+<h2><a name="directx-shader" class="anchor" href="#directx-shader"></a>DirectX Shader</h2><p>The handling of the directX shader material is mimic from glTF format. <a href="/resources/3DSMax_to_glTF#directx-shader-material">Detailed explanations here</a></p>
+<h2><a name="texture-transparency" class="anchor" href="#texture-transparency"></a>Texture transparency</h2><p>Babylon supports PNG, DDS and TGA formats for texture transparency. You can choose to include the transparency directly in your diffuse texture, or create an opacity map. Here are the options to check if you want to have transparency on your diffuse texture: </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/9186c14451ef6b57123dcfd5f33c9e2e419c708b/76b49/img/exporters/3dsmax/11_texture.jpg" alt="texture"></p>
+<h2><a name="unlit-material" class="anchor" href="#unlit-material"></a>Unlit material</h2><p>A material can be exported as Unlit, meaning independent of lighting. This implies that light-relative attributes or textures are not exported: ambient, specular, emissive, bump mapping and reflection texture.</p>
+<p>3DS MAX does not provide a simple way to tag a material as Unlit. To do so, you need to add a custom attribute to the material :</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/631ee53cf1a49838d5df316e07c80b9be2d5a97d/1c0a2/img/exporters/3dsmax/unlit_custom_material_attribute.jpg" alt="3DS MAX unlit custom material attribute"></p>
+<p>To add the desired custom attribute, you are recommended to use the <a href="https://github.com/BabylonJS/Exporters/blob/master/3ds%20Max/MaxScripts/BabylonMaterialAttributes.ms">BabylonMaterialAttributes MAXScript</a> which adds the Unlit attribute to all materials used in the scene. The default value is <em>not Unlit</em>. Run the script again whenever creating/assigning a new material.</p>
+<p>Alternatively, you can add the custom attribute manually following <a href="https://knowledge.autodesk.com/support/3ds-max/learn-explore/caas/CloudHelp/cloudhelp/2016/ENU/3DSMax/files/GUID-7EAA7D84-5775-4E4C-9936-D874EB7A42BB-htm.html">3DS MAX guidelines</a>. Note that the exporter is looking for an attribute named <em>babylonUnlit</em>. The visual text (<em>Unlit</em>) could be whatever you want.</p>
+<p>Now that you know all about the exporter features, it’s time to use it! </p>
+<h1><a name="using-the-exporter" class="anchor" href="#using-the-exporter"></a>Using the exporter</h1><p>First, create the model you will be using in the Key class. I choose to create a simple key (you might recognize a little inspiration from the Zelda games). As you can see, the key has 3 key frames creating a floating animation. Its material has no diffuse color (set to black), but a self-illumination color (corresponding to the emissive color in Babylon.js). </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/dce911c2ed719a8390bdcd79d322b395ee61a65c/a0fc4/img/exporters/3dsmax/12_key.jpg" alt="key"></p>
+<p>The only thing left to do is to export this key as a Babylon file, and we’re done with 3DS Max. As the animation is going from frame 0 to frame 80, the Babylon properties for this object have to be updated. And we’re done! </p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/a50c3c777ea96125f495f9886403392d729b9ed0/a1f4f/img/exporters/3dsmax/13_animation.jpg" alt="animation"></p>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

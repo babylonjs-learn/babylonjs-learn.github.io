@@ -1,0 +1,101 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item active" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>How To</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>Use WebXR (WebVR, WebAR, Magic Window, Etc.)</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#setup">Setup</a></li>
+<li><a href="#getting-started">Getting Started</a></li>
+<li><a href="#xr-camera">XR Camera</a></li>
+<li><a href="#magic-window-mobile-ar">Magic Window (Mobile AR)</a></li>
+<li><a href="#virtual-reality-windows-mixed-reality-vive-oculus-etc">Virtual reality (Windows Mixed Reality, Vive, Oculus, etc.)</a></li>
+<li><a href="#examples">Examples</a></li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="how-to-use-the-webvr-experience-helper" class="anchor" href="#how-to-use-the-webvr-experience-helper"></a>How to use the WebVR experience helper</h1><h2><a name="introduction" class="anchor" href="#introduction"></a>Introduction</h2><p>The <a href="https://immersive-web.github.io/webxr/">WebXR API</a> allows the browser to interact to AR/VR devices. Babylon provides WebXR classes to make it easier to add webXR support to a Babylon scene.
+<strong>Note:</strong> The WebXR spec is still under development and this API may change.</p>
+<h2><a name="setup" class="anchor" href="#setup"></a>Setup</h2><p>Currently, the version of WebXR Babylon is targetting is in <a href="https://www.google.com/chrome/canary/">Chrome Canary</a></p>
+<ol>
+<li>Install <a href="https://www.google.com/chrome/canary/">Chrome Canary</a> on desktop or mobile</li>
+<li>If on mobile ensure you have Android 8 or higher and a device that supports AR Core (eg. Pixel XL 2)</li>
+<li>In Chrome Canary, enter chrome://flags into the url bar then search for webXR and enable all xr related flags</li>
+</ol>
+<p><strong>Currently Not supported</strong></p>
+<ul>
+<li>Iphone browsers don&#39;t support xr, <a href="https://github.com/mozilla-mobile/webxr-ios">https://github.com/mozilla-mobile/webxr-ios</a> supports an older version of webXR, once it matches the current spec, it should work.</li>
+</ul>
+<p><strong>Debugging:</strong></p>
+<ul>
+<li><a href="https://developers.google.com/web/tools/chrome-devtools/remote-debugging/">https://developers.google.com/web/tools/chrome-devtools/remote-debugging/</a> </li>
+</ul>
+<p><strong>Note:</strong> <a href="https://github.com/immersive-web/webxr-polyfill">https://github.com/immersive-web/webxr-polyfill</a> can be used in the future to polyfill browsers that dont support webXR</p>
+<h2><a name="getting-started" class="anchor" href="#getting-started"></a>Getting Started</h2><p>After creating a Babylon scene, an XR helper can be created to enter/exit an XR session. </p>
+<pre><code class="lang-javascript">var xrHelper = await BABYLON.WebXRExperienceHelper.CreateAsync(scene)
+</code></pre>
+<p>XR supports many different session types eg. VR / AR / Mobile AR (Described in later sections below) and not all session types will be supported by a specific device or browser so a session can be checked if it&#39;s supported via the supportsSessionAsync method.</p>
+<pre><code class="lang-javascript">var supported = await xrHelper.supportsSessionAsync({immersive: true});
+</code></pre>
+<p>If a session is supported the helper can be used to enter the XR session.
+<strong>Note:</strong> Most browsers require enteringXR to be called from a user interaction event (eg. button click)</p>
+<pre><code class="lang-javascript">await xrHelper.enterXRAsync({immersive: true}, &quot;eye-level&quot;);
+</code></pre>
+<p>This will activate the session and set the scene&#39;s active camera to the camera contained in the XR helper.</p>
+<p>exitXRAsync can be used to exit XR which will set the active camera back to what it was originally.</p>
+<pre><code class="lang-javascript">await xrHelper.exitXRAsync();
+</code></pre>
+<p>Application logic may depend on the current state of the XR helper so this can be accessed with:</p>
+<pre><code class="lang-javascript">xrHelper.state == WebXRState.IN_XR;
+</code></pre>
+<h2><a name="xr-camera" class="anchor" href="#xr-camera"></a>XR Camera</h2><p>The helper&#39;s XR Camera is updated by the device every frame. If code is used to overwrite it&#39;s position it will just be overwritten on the next frame therefor the helper wraps the XR Camera in a container mesh. Helper methods are provided</p>
+<p>Position the camera&#39;s global position to 0,0,0</p>
+<pre><code class="lang-javascript">xrHelper.setPositionOfCameraUsingContainer(new Vector3(0,0,0));
+</code></pre>
+<p>Rotate the camera 90 degrees on the global Y axis</p>
+<pre><code class="lang-javascript">xrHelper.rotateCameraByQuaternionUsingContainer(Quaternion.FromEulerAngles(0, Math.PI/2, 0));
+</code></pre>
+<p>The container and camera can be accessed as properties of the helper if needed</p>
+<pre><code class="lang-javascript">xrHelper.camera;
+xrHelper.container;
+</code></pre>
+<h2><a name="magic-window-mobile-ar" class="anchor" href="#magic-window-mobile-ar"></a>Magic Window (Mobile AR)</h2><p>A magic window session can be initialized with the session parameters below. A new canvas is required to display the mobile device&#39;s environment through the camera. The WebXRManagedOutputCanvas can be used to create a full screen output canvas that is only added to the webpage when XR is entered.</p>
+<pre><code class="lang-javascript">var xrOutputCanvas = new WebXRManagedOutputCanvas(xrHelper);
+await xrHelper.enterXRAsync({immersive: false, environmentIntegration: true, outputContext: xrOutputCanvas.canvasContext}, &quot;eye-level&quot;);
+</code></pre>
+<p>When an xr session has environmentIntegration enabled, a ray can be cast into that environment to detect collisions in the real world. This can be used to place virtual objects. (After entering XR the device may need to be waived around a bit to scan the environment before a collision will occur)</p>
+<pre><code class="lang-javascript">document.onclick = async(e)=&gt;{
+    // Create ray
+    var ray = xrHelper.camera.getForwardRay(Number.MAX_VALUE)
+
+    // Fire hittest
+    var point = await xrHelper.environmentPointHitTestAsync(ray)
+    if(point){
+        positionableObject.position.copyFrom(point)
+    }
+}
+</code></pre>
+<h2><a name="virtual-reality-windows-mixed-reality-vive-oculus-etc" class="anchor" href="#virtual-reality-windows-mixed-reality-vive-oculus-etc"></a>Virtual reality (Windows Mixed Reality, Vive, Oculus, etc.)</h2><p>A VR session can be initialized with the following session parameters. If mirroring is desired an output canvas can be used.</p>
+<pre><code class="lang-javascript">var xrOutputCanvas = new WebXRManagedOutputCanvas(xrHelper);
+await xrHelper.enterXRAsync({immersive: true, outputContext: xrOutputCanvas.canvasContext}, &quot;eye-level&quot;);
+</code></pre>
+<!-- ## Controllers / Input / Teleportation
+
+## Teleportation
+
+## Enter / Exit buttons UI -->
+<h2><a name="examples" class="anchor" href="#examples"></a>Examples</h2><ul>
+<li><a href="https://playground.babylonjs.com/#ABR20V#50">Magic window</a> - <i class="fa fa-eye" onclick="createIframe('ABR20V#50', this)"></i><br/><div class="iframeContainer"></div><br/></li>
+<li><a href="https://playground.babylonjs.com/#ABR20V#48">VR</a> - <i class="fa fa-eye" onclick="createIframe('ABR20V#48', this)"></i><br/><div class="iframeContainer"></div><br/></li>
+<li><a href="https://playground.babylonjs.com/#ABR20V#42">Magic window + VR</a> - <i class="fa fa-eye" onclick="createIframe('ABR20V#42', this)"></i><br/><div class="iframeContainer"></div><br/></li>
+</ul>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

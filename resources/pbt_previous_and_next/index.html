@@ -1,0 +1,252 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item active" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>resources</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>Advanced Guide for PBT</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#general-points-on-playground-based-tutorial-writing">General Points on Playground Based Tutorial Writing</a><ul>
+<li><a href="#design-for-the-tutorial">Design for the Tutorial</a></li>
+<li><a href="#gui">GUI</a><ul>
+<li><a href="#elements">Elements</a></li>
+<li><a href="#code">Code</a></li>
+</ul>
+</li>
+<li><a href="#sculpt-code">Sculpt Code</a></li>
+<li><a href="#example-blocks">Example blocks.</a><ul>
+<li><a href="#example-1">Example 1</a></li>
+<li><a href="#example-2">Example 2</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a href="#live-examples">Live Examples</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="general-points-on-playground-based-tutorial-writing" class="anchor" href="#general-points-on-playground-based-tutorial-writing"></a>General Points on Playground Based Tutorial Writing</h1><p>Writing any PBT involves different sections code. These are</p>
+<ul>
+<li><strong>Basic</strong> code needed to produce the playground;</li>
+<li><strong>Focus</strong> code that is the focus of the tutorial;</li>
+<li><strong>Context</strong> code to give support in understanding code;</li>
+<li><strong>GUI</strong> PBT code for the GUI, including functions called by GUI buttons;</li>
+<li><strong>Sculpt</strong> PBT code to manipulate the editor. </li>
+</ul>
+<h2><a name="design-for-the-tutorial" class="anchor" href="#design-for-the-tutorial"></a>Design for the Tutorial</h2><p>This guide will concentrate mainly on the sculpt code and how to deal with the use of both a <strong>Previous</strong> and a <strong>Next</strong> button. Also because two viewports are used and a Babylon.GUI would appear in both the GUI is produced using HTML.</p>
+<p>There will be a step by step overview of the code plus at many steps a more detailed explanation of the code. </p>
+<h2><a name="gui" class="anchor" href="#gui"></a>GUI</h2><h3><a name="elements" class="anchor" href="#elements"></a>Elements</h3><p>A holder is created using absolute positioning so that its screen placement can be controlled. This will contain the text describing the sculpt code and buttons to move through the tutorial. </p>
+<pre><code class="lang-javascript">var holder = document.createElement(&quot;div&quot;);
+holder.style.position = &quot;absolute&quot;;
+holder.style.top = &quot;45%&quot;;
+holder.style.right = &quot;5px&quot;;
+holder.style.width = &quot;45%&quot;;
+holder.style.height = &quot;70px&quot;;
+holder.style.backgroundColor = &quot;#CDC8F9&quot;;
+holder.style.color = &quot;#364249&quot;;
+holder.style.border = &quot;solid 3px #364249&quot;;
+document.body.appendChild(holder);
+</code></pre>
+<p>Buttons to take the user forward and backwards through the tutorial are created. </p>
+<pre><code class="lang-javascript">var prev = document.createElement(&quot;div&quot;);
+prev.style.width = &quot;5%&quot;;
+prev.style.height = &quot;95%&quot;;
+prev.innerHTML = &quot;&amp;#9664;&quot;
+prev.style.fontSize = &quot;2em&quot;;
+prev.style.cssFloat = &quot;left&quot;;
+prev.style.cursor = &quot;pointer&quot;;
+holder.appendChild(prev);
+
+var next = document.createElement(&quot;div&quot;);
+next.style.width = &quot;5%&quot;;
+next.style.height = &quot;95%&quot;;
+next.innerHTML = &quot;&amp;#9654;&quot;
+next.style.fontSize = &quot;2em&quot;;
+next.style.cssFloat = &quot;left&quot;;
+next.style.cursor = &quot;pointer&quot;;
+holder.appendChild(next);
+</code></pre>
+<p>Also a button to lead to extra descriptions is created.</p>
+<pre><code class="lang-javascript">var extra = document.createElement(&quot;div&quot;);
+extra.style.width = &quot;5%&quot;;
+extra.style.height = &quot;95%&quot;;
+extra.style.marginTop = &quot;20px&quot;;
+extra.style.marginLeft = &quot;5px&quot;;
+extra.innerHTML = &quot;&amp;#9660;&quot;
+extra.style.fontSize = &quot;2em&quot;;
+extra.style.cssFloat = &quot;left&quot;;
+extra.style.cursor = &quot;pointer&quot;;
+holder.appendChild(extra);
+</code></pre>
+<pre><code class="lang-javascript">var textBox = document.createElement(&quot;div&quot;);
+textBox.style.width = &quot;80%&quot;;
+textBox.style.height = &quot;95%&quot;;
+textBox.innerHTML = &quot;Some Text&quot;
+textBox.style.cssFloat = &quot;left&quot;;
+textBox.style.marginLeft = &quot;1em&quot;;
+holder.appendChild(textBox);
+</code></pre>
+<h3><a name="code" class="anchor" href="#code"></a>Code</h3><p>There is a need to know if the extra button has been pressed to enter ot leave the additional descriptions.</p>
+<pre><code class="lang-javascript">extra.active = false;
+</code></pre>
+<p>The next button will on occasions, when not needed to move the tutorial forward, act as a reset the scene button for the times when the user &#39;falls off the edge&#39; of the scene. The following sets whether next button is acting as a forward button or a reset button.</p>
+<pre><code class="lang-javascript">sceneReset = false;
+</code></pre>
+<p>Event listeners are added to the buttons.</p>
+<pre><code class="lang-javascript">prev.addEventListener(&quot;click&quot;, goBack, false);
+next.addEventListener(&quot;click&quot;, goForward, false);
+extra.addEventListener(&quot;click&quot;, setExtra, false);
+</code></pre>
+<p>Together with the code that is called.</p>
+<pre><code class="lang-javascript">var tutIndex = 0;
+
+var goBack = function() {
+    if(extra.active) {
+        extra.index--
+        extraAction();
+    }
+    else {
+        tutIndex--
+        tutorialAction();
+    }
+}
+
+var goForward = function() {
+    if(sceneReset) {
+        camera.angle = Math.PI/2;
+        camera.direction = new BABYLON.Vector3(Math.cos(camera.angle), 0, Math.sin(camera.angle));
+        camera.position = new BABYLON.Vector3(0, 1, 0);
+        camera.setTarget = new BABYLON.Vector3(0, 0, 1);
+    }
+    else {
+        if(extra.active) {
+            extra.index++
+            extraAction();
+        }
+        else {
+            tutIndex++;
+            tutorialAction();
+        }
+    }
+}
+
+var setExtra = function() {
+    if (extra.active) {
+        extra.innerHTML = &quot;&amp;#9660;&quot;
+        holder.style.backgroundColor = &quot;#CDC8F9&quot;;
+        tutorialAction();
+    }
+    else {
+        extra.index = 100 * tutIndex;
+        extra.innerHTML = &quot;&amp;#9650;&quot;
+        holder.style.backgroundColor = &quot;#BBD18F&quot;;
+        extraAction();
+    }
+    extra.active = !extra.active;
+}
+</code></pre>
+<p>Increments and detrements in tutIndex and extra.index are used within <strong>switch</strong> statements to move forwards and backwards through the tutorial. GUI code and sculpt code are mixed within the <strong>case break</strong> blocks. A block with case label n: in the overview chain will lead to a first block with label n * 100: in the more descriptive chain. Each block sets the appropriate text.</p>
+<p>In each block the next, previous and extra buttons are hidden or displayed as required taking care that if a button is hidden in one block that the previous block puts it back to visible if that is the required state for that block.</p>
+<h2><a name="sculpt-code" class="anchor" href="#sculpt-code"></a>Sculpt Code</h2><p>As usual start with a new PBT</p>
+<pre><code class="lang-javascript">var pbt = new PBT();
+</code></pre>
+<p>For each block to ensure that only the lines that should be decorated are the ones decorated the following must be in each block.</p>
+<pre><code class="lang-javascript">pbt.clearDecorLines();
+</code></pre>
+<p>Followed by the lines to be decorated</p>
+<pre><code class="lang-javascript">pbt.clearDecorLines();
+pbt.setDecorLines([6, 6, 67, 68, 70, 71]);
+</code></pre>
+<p>As <strong>hideLines</strong> hides only the lines specified it is sufficient for a single call in each block.</p>
+<pre><code class="lang-javascript">pbt.hideLines([7, 65, 72, 1118])
+</code></pre>
+<h2><a name="example-blocks" class="anchor" href="#example-blocks"></a>Example blocks.</h2><h3><a name="example-1" class="anchor" href="#example-1"></a>Example 1</h3><pre><code class="lang-javascript">case 3:
+    extra.style.visibility = &quot;hidden&quot;;    
+    textBox.innerHTML = &quot;This is not the default so new input management scripts will be needed. Now we need to add in the camera and scene objects.&quot;
+    pbt.clearDecorLines();
+    pbt.hideLines([2, 1120]);
+break
+case 4:
+    next.style.visibility = &quot;visible&quot;; 
+    prev.style.visibility = &quot;visible&quot;;    
+    extra.style.visibility = &quot;visible&quot;;
+    textBox.innerHTML = &quot;Add the camera but not yet attatching control to the canvas...&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([6, 7]);
+    pbt.hideLines([8, 1120])
+break
+case 5:
+    extra.style.visibility = &quot;hidden&quot;;    
+    textBox.innerHTML = &quot;... and the ability to collide and react to gravity.&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([6, 6, 67, 68, 70, 71]);
+    pbt.hideLines([7, 65, 72, 1120])
+break
+
+case 400:
+    next.style.visibility = &quot;hidden&quot;; 
+    prev.style.visibility = &quot;hidden&quot;;    
+    textBox.innerHTML = &quot;camera.minZ needs to be a small non zero positive number to ensure collided objects remain in the camera&#39;s view.&quot;;
+break
+</code></pre>
+<p>In block 4: </p>
+<ol>
+<li><em>extra.style.visibility = &quot;visible&quot;</em> since it is <strong>hidden</strong> in blocks 3: and 5:.</li>
+<li><em>prev.style.visibility = &quot;visible&quot;</em> and <em>next.style.visibility = &quot;visible&quot;</em> since if the extra details in block 400: are accessed then both are <strong>hidden</strong>.</li>
+</ol>
+<h3><a name="example-2" class="anchor" href="#example-2"></a>Example 2</h3><pre><code class="lang-javascript">case 18:
+    extra.style.visibility = &quot;hidden&quot;;     
+    textBox.innerHTML = &quot;...and finally add the new keys input manager to the camera.&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([204, 204]);
+    pbt.hideLines([]);
+    pbt.hideLines([7, 191, 205, 1120])
+break
+case 19:
+    next.style.visibility = &quot;visible&quot;; 
+    prev.style.visibility = &quot;visible&quot;;
+    extra.style.visibility = &quot;visible&quot;; 
+    textBox.innerHTML = &quot;Secondly the Mouse Manager...&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([206, 213]);
+    pbt.hideLines([7, 204, 214, 1120])
+break
+
+case 1900:
+    prev.style.visibility = &quot;hidden&quot;;    
+    next.style.visibility = &quot;visible&quot;;  
+    textBox.innerHTML = &quot;Renamed for searching this method is a modified copy of &lt;span style = &#39;font-weight:bold&#39;&gt;FreeCameraMouseInput&lt;/span&gt;.&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([206, 213]);
+    pbt.hideLines([7, 204, 214, 1120])
+break
+case 1901:
+    prev.style.visibility = &quot;visible&quot;;    
+    next.style.visibility = &quot;hidden&quot;;  
+    textBox.innerHTML = &quot;Restriction values have been added to limit local rotations about X and Y&quot;;
+    pbt.clearDecorLines();
+    pbt.setDecorLines([211, 212]);
+    pbt.hideLines([7, 204, 214, 1120]);
+break
+</code></pre>
+<p>In block 19: </p>
+<ol>
+<li><em>extra.style.visibility = &quot;visible&quot;</em> since it is <strong>hidden</strong> in block 18:.</li>
+<li><em>prev.style.visibility = &quot;visible&quot;</em> and <em>next.style.visibility = &quot;visible&quot;</em> since if the extra details in block 1900: are accessed then <em>prev.style.visibility = &quot;hidden&quot;</em> and if block 1901: is accessed <em>next.style.visibility = &quot;hidden&quot;</em>. A return from either 1900: or 1901: will still result in <em>prev</em> and <em>next</em> being visible.</li>
+</ol>
+<h1><a name="live-examples" class="anchor" href="#live-examples"></a>Live Examples</h1><p>The working playground using the above code.</p>
+<ul>
+<li><a href="https://www.babylonjs-playground.com/#U825TZ">Playground Tutorial - Camera Collisions and Input Customisation</a> - <i class="fa fa-eye" onclick="createIframe('U825TZ', this)"></i><br/><div class="iframeContainer"></div><br/></li>
+</ul>
+<h1><a name="further-reading" class="anchor" href="#further-reading"></a>Further Reading</h1><ul>
+<li><a href="/How_To/playground_tutorials">Playground Based Tutorial Writing Overview</a><br><a href="/resources/hiding_editor_lines">Starter Guide</a><br><a href="/resources/PBT_Writing">Intermediate Guide</a></li>
+</ul>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

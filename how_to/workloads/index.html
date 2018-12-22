@@ -1,0 +1,367 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item active" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>How To</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>Customize Your Build</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#customize-your-build">Customize Your Build</a><ul>
+<li><a href="#custom-builds">Custom builds</a></li>
+<li><a href="#available-workloads">Available Workloads</a></li>
+</ul>
+</li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="customize-your-build" class="anchor" href="#customize-your-build"></a>Customize Your Build</h1><p>Whether you are customizing by <a href="/How_To/addFiles">adding new files</a> or by selecting which modules to build with you will have to edit the <code>config.json</code> file from the <code>/tools/gulp</code> folder.  By default, the build process will generate code for all classes and so if you want to strip out some classes you need to change the <code>currentConfig</code>.</p>
+<h2><a name="custom-builds" class="anchor" href="#custom-builds"></a>Custom builds</h2><p>To do so, </p>
+<p>This file starts with this format:</p>
+<pre><code>    &quot;build&quot;: {
+        &quot;filename&quot;: &quot;babylon.max.js&quot;,
+        &quot;minFilename&quot;: &quot;babylon.js&quot;,
+        &quot;minWorkerFilename&quot;: &quot;babylon.worker.js&quot;,
+        &quot;declarationFilename&quot;: &quot;babylon.d.ts&quot;,
+        &quot;declarationModuleFilename&quot;: &quot;babylon.module.d.ts&quot;,
+        &quot;outputDirectory&quot;: &quot;../../dist/preview release&quot;,
+        ...
+        ...
+        &quot;srcOutputDirectory&quot;: &quot;../../src/&quot;,
+        &quot;currentConfig&quot;: &quot;all&quot;,
+        ...
+        ...
+    },
+    &quot;buildConfigurations&quot;: {
+        &quot;all&quot;: [
+                ...
+        ],
+        &quot;minimal&quot;: [
+            &quot;meshBuilder&quot;,
+            &quot;freeCamera&quot;,
+            &quot;hemisphericLight&quot;
+        ],
+        &quot;360Viewer&quot;: [
+            &quot;arcRotateCamera&quot;,
+            &quot;hemisphericLight&quot;,
+            &quot;meshBuilder&quot;,
+            &quot;picking&quot;,
+            &quot;backgroundMaterial&quot;,
+            &quot;videoDome&quot;
+        ]  
+    },
+    &quot;workloads&quot; :
+    {
+</code></pre><p>You can see inside the <code>buildConfigurations</code> bucket that two configurations are defined: <code>all</code> and <code>minimal</code>.
+A configuration is an array of workloads. Workloads are sets of file, shaders and dependencies. They define a set of work. You can use then to cherry pick only features that you want to use.</p>
+<p>For instance the <code>minimal</code> configuration only contains the following workloards: <code>meshBuilder</code>, <code>freeCamera</code>, <code>hemisphericLight</code>.</p>
+<p>You can change the active configuration by settings the <code>build.currentConfig</code> value (set to <code>all</code> by default).</p>
+<table>
+<thead>
+<tr>
+<th>Configuration</th>
+<th>Size in KB (gzipped)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>minimal</td>
+<td>170</td>
+</tr>
+<tr>
+<td>360Viewer</td>
+<td>188</td>
+</tr>
+</tbody>
+</table>
+<h2><a name="available-workloads" class="anchor" href="#available-workloads"></a>Available Workloads</h2><p>Those below are the ones available at the time of writing.</p>
+<p>For a full list of current workloads see the <code>all</code> array in the <code>config.json</code> file from <code>/tools/gulp folder</code></p>
+<pre><code>&quot;buildConfigurations&quot;: {
+        &quot;all&quot;: [
+                ...
+        ],
+</code></pre><table>
+<thead>
+<tr>
+<th>Workload</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>standardMaterial</td>
+<td>Contains standard material and associated shaders</td>
+</tr>
+<tr>
+<td>pbrMaterial</td>
+<td>Contains PBR material and associated shaders</td>
+</tr>
+<tr>
+<td>freeCamera</td>
+<td>Contains FreeCamera</td>
+</tr>
+<tr>
+<td>arcRotateCamera</td>
+<td>Contains ArcRotateCamera</td>
+</tr>
+<tr>
+<td>hemisphericLight</td>
+<td>Contains HemisphericLight</td>
+</tr>
+<tr>
+<td>pointLight</td>
+<td>Contains PointLight</td>
+</tr>
+<tr>
+<td>directionalLight</td>
+<td>Contains DirectionalLight</td>
+</tr>
+<tr>
+<td>spotLight</td>
+<td>Contains SpotLight</td>
+</tr>
+<tr>
+<td>animations</td>
+<td>Contains Animations and Animatables</td>
+</tr>
+<tr>
+<td>actions</td>
+<td>Contains Actions and ActionManagers</td>
+</tr>
+<tr>
+<td>sprites</td>
+<td>Contains Sprites and SpriteManager</td>
+</tr>
+<tr>
+<td>picking</td>
+<td>Contains PickingInfo and Ray</td>
+</tr>
+<tr>
+<td>collisions</td>
+<td>Contains Collider</td>
+</tr>
+<tr>
+<td>particles</td>
+<td>Contains Particle and ParticleSystem</td>
+</tr>
+<tr>
+<td>solidParticles</td>
+<td>Contains SolidParticleSystem</td>
+</tr>
+<tr>
+<td>additionalMeshes</td>
+<td>Contains GroundMesh, InstanceMesh and LinesMesh</td>
+</tr>
+<tr>
+<td>meshBuilder</td>
+<td>Contains MeshBuilder</td>
+</tr>
+<tr>
+<td>audio</td>
+<td>Contains AudioEngine, Sound, Soundtrack and Analyzer</td>
+</tr>
+<tr>
+<td>additionalTextures</td>
+<td>Contains CubeTexture, RenderTargetTexture, MirrorTexture, RefractionTextures, DynamicTexture, VideoTexture and RawTexture</td>
+</tr>
+<tr>
+<td>shadows</td>
+<td>Contains ShadowGenerator</td>
+</tr>
+<tr>
+<td>loader</td>
+<td>Contains SceneLoader, FilesInput and LoadingScreen</td>
+</tr>
+<tr>
+<td>userData</td>
+<td>Contains StringDictionary, Tags and AndOrNotEvaluator</td>
+</tr>
+<tr>
+<td>offline</td>
+<td>Contains Database</td>
+</tr>
+<tr>
+<td>fresnel</td>
+<td>Contains FresnelParameters</td>
+</tr>
+<tr>
+<td>multiMaterial</td>
+<td>Contains MultiMaterial</td>
+</tr>
+<tr>
+<td>procedural</td>
+<td>Contains the ProceduralTexture and CustomProceduralTexture</td>
+</tr>
+<tr>
+<td>gamepad</td>
+<td>Contains FreeCameraGamepadInput, ArcRotateCameraGamepadInput, Gamepads, ExtendedGamepad</td>
+</tr>
+<tr>
+<td>additionalCameras</td>
+<td>Contains FollowCamera, UniversalCamera and GamepadCamera</td>
+</tr>
+<tr>
+<td>touchCamera</td>
+<td>Contains TouchCamera and FreeCameraTouchInput</td>
+</tr>
+<tr>
+<td>postProcesses</td>
+<td>Contains PostProcess and PassPostProcess</td>
+</tr>
+<tr>
+<td>imageProcessing</td>
+<td>Contains ImageProcessingConfiguration</td>
+</tr>
+<tr>
+<td>renderingPipeline</td>
+<td>Contains PostProcessRenderPipelineManager, PostProcessRenderPass, PostProcessRenderEffect and PostProcessRenderPipeline</td>
+</tr>
+<tr>
+<td>additionalRenderingPipeline</td>
+<td>Contains SSAORenderingPipeline, LensRenderingPipeline, HDRRenderingPipeline, StandardRenderingPipeline</td>
+</tr>
+<tr>
+<td>depthRenderer</td>
+<td>Contains DepthRenderer</td>
+</tr>
+<tr>
+<td>additionalPostProcesses</td>
+<td>Contains BlurPostProcess, RefractionPostProcess, BlackAndWhitePostProcess, ConvolutionPostProcess, FilterPostProcess, FxaaPostProcess, VolumetricLightScatteringPostProcess, ColorCorrectionPostProcess, TonemapPostProcess and DisplayPassPostProcess</td>
+</tr>
+<tr>
+<td>bones</td>
+<td>Contains Bone, BoneIKController, BoneLookController and Skeleton</td>
+</tr>
+<tr>
+<td>hdr</td>
+<td>Contains CubemapToSphericalPolynomial, PanoramaToCubemap, HDRTools, PMRemgenerator, HDRCubeTexture</td>
+</tr>
+<tr>
+<td>polygonMesh</td>
+<td>Contains PolygonMesh</td>
+</tr>
+<tr>
+<td>csg</td>
+<td>Contains CSG</td>
+</tr>
+<tr>
+<td>lensFlares</td>
+<td>Contains LensFlare and LensFlareSystem</td>
+</tr>
+<tr>
+<td>physics</td>
+<td>Contains PhysicsJoint, PhysicsImpostor, PhysicsEngine, CannonJSPlugin and OimoJSPlugin</td>
+</tr>
+<tr>
+<td>textureFormats</td>
+<td>Contains support for .tga, .dds and .ktc</td>
+</tr>
+<tr>
+<td>debug</td>
+<td>Contains SkeletonViewer, AxesViewer, BoneAxesViewer, RayHelper, DebugLayer and BoundingBoxRenderer</td>
+</tr>
+<tr>
+<td>morphTargets</td>
+<td>Contains MorphTarget and MorphTargetManager</td>
+</tr>
+<tr>
+<td>colorCurves</td>
+<td>Contains ColorGradingTexture and ColorCurves</td>
+</tr>
+<tr>
+<td>octrees</td>
+<td>Contains Octree and OctreeBlock</td>
+</tr>
+<tr>
+<td>simd</td>
+<td>Contains SIMD support for Math</td>
+</tr>
+<tr>
+<td>vr</td>
+<td>Contains VRDistortionCorrectionPostProcess, AnaglyphPostProcess, StereoscopicInterlacePostProcess, FreeCameraDeviceOrientationInput, ArcRotateCameraVRDeviceOrientationInput, VRCameraMetrics, WebVRCamera, DeviceOrientationCamera, VRDeviceOrientationCamera and StereoscopicCameras</td>
+</tr>
+<tr>
+<td>virtualJoystick</td>
+<td>Contains VirtualJoystick, VirtualJoysticksCamera and FreeCameraVirtualJoystickInput</td>
+</tr>
+<tr>
+<td>optimizations</td>
+<td>Contains MeshSimplification, MeshLODLevel and SceneOptimizer</td>
+</tr>
+<tr>
+<td>highlights</td>
+<td>Contains OutlineRenderer, EdgesRenderer and Highlightlayer</td>
+</tr>
+<tr>
+<td>assetsManager</td>
+<td>Contains AssetsManager</td>
+</tr>
+<tr>
+<td>mapTexture</td>
+<td>Contains MapTexture and RectPackingMap</td>
+</tr>
+<tr>
+<td>dynamicFloatArray</td>
+<td>Contains DynamicFloatArray</td>
+</tr>
+<tr>
+<td>serialization</td>
+<td>Contains SceneSerializer</td>
+</tr>
+<tr>
+<td>probes</td>
+<td>Contains ReflectionProbe</td>
+</tr>
+<tr>
+<td>layer</td>
+<td>Contains Layer</td>
+</tr>
+<tr>
+<td>textureTools</td>
+<td>Contains TextureTools</td>
+</tr>
+<tr>
+<td>behaviors</td>
+<td>Contains behavior mechanism</td>
+</tr>
+<tr>
+<td>cameraBehaviors</td>
+<td>Contains all camera behaviors</td>
+</tr>
+<tr>
+<td>meshBehaviors</td>
+<td>Contains all mesh behaviors</td>
+</tr>
+<tr>
+<td>instrumentation</td>
+<td>Contains instrumentation classes</td>
+</tr>
+<tr>
+<td>backgroundMaterial</td>
+<td>Contains the backgroundMaterial</td>
+</tr>
+<tr>
+<td>environmentHelper</td>
+<td>Contains the environmentHelper</td>
+</tr>
+<tr>
+<td>particleHelper</td>
+<td>Contains the particleHelper</td>
+</tr>
+<tr>
+<td>videoDome</td>
+<td>Contains the videoDome</td>
+</tr>
+<tr>
+<td>photoDome</td>
+<td>Contains the photoDome</td>
+</tr>
+</tbody>
+</table>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

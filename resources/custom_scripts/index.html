@@ -1,0 +1,106 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item active" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>resources</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>Writing Custom Scripts</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#explaining-the-code">Explaining the code</a></li>
+<li><a href="#debugging-the-code">Debugging the code</a><ul>
+<li><a href="#importing-custom-classes-to-your-custom-scripts">Importing custom classes to your custom scripts</a></li>
+</ul>
+</li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="writing-custom-scripts" class="anchor" href="#writing-custom-scripts"></a>Writing custom scripts</h1><p>The editor provides a tool to write and attach custom scripts to objects in the scene</p>
+<p>This includes:</p>
+<ul>
+<li>The scene itself</li>
+<li>Meshes</li>
+<li>Cameras</li>
+<li>Lights</li>
+<li>Particle systems</li>
+</ul>
+<p>To access the tool, just click on the toolbar <strong>Tools -&gt; Code Editor...</strong>.</p>
+<p>All the scripts you will write are standalone and can be attached to objects (by creating links).
+That means you&#39;ll first have to add a new script. Then, attach the new script to your object(s).</p>
+<p>To add a new script, just click <strong>Add New Script...</strong> in the toolbar and give it a name. If you selected an object before, the script will be automatically attached.
+Once you added the new script, the assets panel will be updated and you able to drag&#39;n&#39;drop the new script on another objects.</p>
+<p>To add a new reference to a script to the selected object, just click on <strong>Add New</strong> in the grid and select the script to attach.</p>
+<p>Once you select another object in the scene, the tool will refresh and draw the available scripts for the new selected object.</p>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/6U87lDX8i3A" frameborder="0" allow="autoplay; encrypted-media" allowfullscreen></iframe>
+
+<h2><a name="explaining-the-code" class="anchor" href="#explaining-the-code"></a>Explaining the code</h2><pre><code class="lang-javascript">class Script implements IScript {
+    // Public members
+    public blackColor = new BABYLON.Color4(0, 0, 0, 1);
+    public customParam: string = &#39;&#39;;
+
+    /**
+     * Constructor
+     */
+    constructor () {
+
+    }
+
+    /**
+     * Called once starting the script
+     */
+    public start (): void {
+        // You can access the scene everywhere.
+        // That means the scene is globally accessible
+        scene.clearColor = this.blackColor;
+
+        // You can access the attached object everywhere
+        // The attached object can also be &quot;scene&quot;, &quot;pointlight&quot;, etc.
+        console.log(mesh);
+
+        // Finally, you can console.log a custom parameter set from the editor
+        console.log(this.customParam);
+    }
+
+    /**
+     * Called on each frame
+     */
+    public update (): void {
+        // Your code... For example:
+        mesh.rotation.y += 0.01;
+    }
+}
+
+// Function that exports the script
+exportScript(
+    Script, // Constructor of the script. No parameters allowed
+
+    // Custom parameters accessible from the editor in order to customize the script.
+    // These values will be available in the Inspector panel in the folder &#39;Script&#39;
+    { customParam: &#39;Hello&#39; }
+);
+</code></pre>
+<h2><a name="debugging-the-code" class="anchor" href="#debugging-the-code"></a>Debugging the code</h2><p>Once you are happy and want to test your code, just run the scene by clicking in the toolbar <strong>Play and Debug</strong>. The editor will open a new window.</p>
+<p>To see errors and debug your code (break points, logs, etc.), just type F12 in the new opened window. To set breakpoints, all the custom scripts are available at <strong>behaviors/</strong>. For instance, sourcemaps are not supported but will come in future versions.</p>
+<h1><a name="importing-custom-classes-to-your-custom-scripts" class="anchor" href="#importing-custom-classes-to-your-custom-scripts"></a>Importing custom classes to your custom scripts</h1><p>To help you factorizing your code, you can create different kinds of scripts:</p>
+<ul>
+<li>Scripts that you&#39;ll attach to nodes</li>
+<li>Scripts used to store functionalities</li>
+</ul>
+<p>Given this script named <code>&quot;Maki&quot;</code> attached to <code>Sphere Standard</code>:
+<img src="https://d33wubrfki0l68.cloudfront.net/8fdb49d6ec7bc8a195d080304246a9cb90a87fe8/2017d/img/extensions/editor/codeeditor/maki.png" alt="EditorCodeEditor"></p>
+<p>We would like to import a class we&#39;ll write to create new instances and call methods. To add a new script you&#39;ll import, just click the button &quot;Add&quot; in the assets panel and give it a name (here <code>&quot;Dog&quot;</code>):
+<img src="https://d33wubrfki0l68.cloudfront.net/92e26406a4ac291f62331f845123929cdfa7eb0b/450bb/img/extensions/editor/codeeditor/dog.png" alt="EditorCodeEditor"></p>
+<p>By default, the new class implements a constructor and a function <code>&quot;log&quot;</code>.</p>
+<p>Let&#39;s rename the class to <code>Dog</code>:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/3de47073a36373978cc39232eb55be721c0024a8/516af/img/extensions/editor/codeeditor/class_dog.png" alt="EditorCodeEditor"></p>
+<p>Back to our script <code>&quot;Maki&quot;</code>, we are now able to import the class <code>Dog</code> from the script named <code>&quot;Dog&quot;</code>:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/ed2d37bae4fe1e69edf0f33bc9a6defaee96ef44/961f5/img/extensions/editor/codeeditor/maki_final.png" alt="EditorCodeEditor"></p>
+<p>Then, running your project, the <code>.log</code> function is called:</p>
+<p><img src="https://d33wubrfki0l68.cloudfront.net/e0054d8ec8dec48cad29905852ad445350c786fe/e8d46/img/extensions/editor/codeeditor/maki_result.png" alt="EditorCodeEditor"></p>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

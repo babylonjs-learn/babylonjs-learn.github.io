@@ -1,0 +1,439 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item active" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>resources</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>Intermediate Guide for PBT</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#general-points-on-playground-based-tutorial-writing">General Points on Playground Based Tutorial Writing</a><ul>
+<li><a href="#design-for-the-tutorial">Design for the Tutorial</a></li>
+<li><a href="#focus-code">Focus Code</a></li>
+<li><a href="#context-code">Context Code</a><ul>
+<li><a href="#sculpt-code">Sculpt Code</a></li>
+<li><a href="#context-code">Context Code</a></li>
+</ul>
+</li>
+<li><a href="#gui-code">GUI Code</a><ul>
+<li><a href="#standard-dialogue-box">Standard Dialogue Box</a></li>
+<li><a href="#selection-dialogue-code">Selection Dialogue Code</a></li>
+</ul>
+</li>
+<li><a href="#sculpt-code">Sculpt Code</a></li>
+</ul>
+</li>
+<li><a href="#live-example">Live Example</a></li>
+<li><a href="#further-reading">Further Reading</a></li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="general-points-on-playground-based-tutorial-writing" class="anchor" href="#general-points-on-playground-based-tutorial-writing"></a>General Points on Playground Based Tutorial Writing</h1><p>Writing any PBT involves different sections code. These are</p>
+<ul>
+<li><strong>Basic</strong> code needed to produce the playground;</li>
+<li><strong>Focus</strong> code that is the focus of the tutorial;</li>
+<li><strong>Context</strong> code to give support in understanding code;</li>
+<li><strong>GUI</strong> PBT code for the GUI, including functions called by GUI buttons;</li>
+<li><strong>Sculpt</strong> PBT code to manipulate the editor. </li>
+</ul>
+<h2><a name="design-for-the-tutorial" class="anchor" href="#design-for-the-tutorial"></a>Design for the Tutorial</h2><p>The tutorial is to show how the .rotation and .rotate methods differ. The action of rotating will be slowed to show the user what is happening. The user will be given the opportunity to choose the order of rotations and whether they take place in WORLD or LOCAL space.</p>
+<p>The usual basic code needed to produce a playground will be faded. The focus code is the code needed to produce the meshes and the code using .rotation and .rotate applied to them.</p>
+<p>Context code will be used to add axes and also to do the actual animation of rotating the meshes. </p>
+<p>In this case the focus code using .rotation and .rotate and the context code used for rotating are different. The focus code is for display only. </p>
+<p>The GUI code will produce a standard dialogue box to step through the tutorial and a selection dialogue box GUI for the choices available. The buttons chosen on the selection dialogue box will determine both sculpt code and context code.</p>
+<p>GUI and sculpt code will be hidden.</p>
+<h2><a name="focus-code" class="anchor" href="#focus-code"></a>Focus Code</h2><p>The focus code will be presented to the user in stages as the tutorial is progressed through using a standard dialogue box.</p>
+<p>To start with the displayed focus code is </p>
+<pre><code class="lang-javascript">var body = BABYLON.MeshBuilder.CreateCylinder(&quot;body&quot;, { height: 0.75, diameterTop: 0.2, diameterBottom: 0.5, tessellation: 6, subdivisions: 1 }, scene);
+var arm = BABYLON.MeshBuilder.CreateBox(&quot;arm&quot;, { height: 0.75, width: 0.3, depth: 0.1875 }, scene);
+arm.position.x = 0.125;
+
+var blueBlock = BABYLON.Mesh.MergeMeshes([body, arm], true);
+blueBlock.position = new BABYLON.Vector3(1, 3, 4);
+blueBlock.material = blueMat;
+</code></pre>
+<p>These lines will be decorated using</p>
+<pre><code class="lang-javascript">pbt.clearDecorLines();
+pbt.setDecorLines([18, 24]);
+</code></pre>
+<p>The following focus code will be added, decorated and changed during the progress of the tutorial using <code>sculpt code</code>.</p>
+<pre><code class="lang-javascript">redBlock = blueBlock.clone(&quot;redBlock&quot;);
+redBlock.material = redMat;
+redBlock.position = new BABYLON.Vector3(4, 3, 4);
+
+blueBlock.rotation.x = Math.PI/2;
+blueBlock.rotation.y = Math.PI/2;
+blueBlock.rotation.z = Math.PI/2;
+
+redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
+redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
+redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);
+</code></pre>
+<h2><a name="context-code" class="anchor" href="#context-code"></a>Context Code</h2><p>As in the <a href="/resources/hiding_editor_lines">starter guide</a> this includes code to create world and local axes and function calls to them.</p>
+<p>It also includes the code to carry out any rotations slowly. The rotations in the focus code are carried out immediately with no chance of a student seeing what happens. So whilst the focus is on the code in the editor the context code does the work. </p>
+<p>The selection dialogue box allows the user to choose WORLD or LOCAL space. Two functions are required one for each choice. Both contain context, GUI and sculpt code.</p>
+<p>The context at the code sets a flag for the space used then resets the rotations of the meshes to zero.</p>
+<p>The GUI code places a message in the standard dialogue box to state whether WORLD or LOCAL space is being used.</p>
+<p>The sculpt code switches editing on at the start so that the focus code can be changed and switches it back off at the end. It also replaces WORLD or LOCAL on the lines in the focus code relating to <em>.rotate</em>.</p>
+<p>Two different methods are used.</p>
+<p>In <em>localSpace</em> each line is read and javascript used to replace &quot;WORLD&quot; witth &quot;LOCAL&quot;.</p>
+<p>In <em>worldSpace</em> sculpt code is used to change the characters on the given lines from and to the given character positions on the line.</p>
+<p>LOCAL space set.</p>
+<pre><code class="lang-javascript">var localSpace = function() {
+    spaceWorld = false;
+    localOriginRed.rotationQuaternion = qXStart.multiply(qYStart).multiply(qZStart);
+    blueBlock.rotation = BABYLON.Vector3.Zero();
+    redBlock.rotationQuaternion = qXStart.multiply(qYStart).multiply(qZStart);
+    tutorial.setText(&quot;The rotation axes are LOCAL to the block and move with it.&quot;);
+    pbt.editOn();
+    var lineText = pbt.getLineText(34);
+    lineText = lineText.replace(&quot;WORLD&quot;, &quot;LOCAL&quot;);
+    pbt.replaceLines([34, 34], lineText);
+    lineText = pbt.getLineText(35);
+    lineText = lineText.replace(&quot;WORLD&quot;, &quot;LOCAL&quot;);
+    pbt.replaceLines([35, 35], lineText);  
+    lineText = pbt.getLineText(36);
+    lineText = lineText.replace(&quot;WORLD&quot;, &quot;LOCAL&quot;);
+    pbt.replaceLines([36, 36], lineText);
+    pbt.editOff();
+}
+</code></pre>
+<p>WORLD space set.</p>
+<pre><code class="lang-javascript">var worldSpace = function() {
+    spaceWorld = true;
+    localOriginRed.rotationQuaternion = qXStart.multiply(qYStart).multiply(qZStart);
+    blueBlock.rotation = BABYLON.Vector3.Zero();
+    redBlock.rotationQuaternion = qXStart.multiply(qYStart).multiply(qZStart);
+    tutorial.setText(&quot;The rotation axes are fixed and parallel to the WORLD axes.&quot;);
+    pbt.editOn();
+    pbt.replaceText(34, 62, 67, &quot;WORLD&quot;);
+    pbt.replaceText(35, 62, 67, &quot;WORLD&quot;);
+    pbt.replaceText(36, 62, 67, &quot;WORLD&quot;);
+    pbt.editOff();
+}
+</code></pre>
+<p>The rotations carried out also depend on the choice from the selection box and a function is needed for each them. The functions mix context, and sculpt code. </p>
+<p>There are 6 choices for order and two for which space, WORLD or LOCAL, to use. </p>
+<p>The six for order all use the same pattern. The one for the order X, Y then Z is given as an example.</p>
+<pre><code class="lang-javascript">var XYZ = function() {          
+    pbt.editOn();
+    var newLines = &#39;    blueBlock.rotation.x = Math.PI/2;\r\n&#39;;
+    newLines += &#39;    blueBlock.rotation.y = Math.PI/2;\r\n&#39;;
+    newLines += &#39;    blueBlock.rotation.z = Math.PI/2;&#39;;
+    pbt.replaceLines([30, 32], newLines);
+
+     rotationMsg    = !rotationMsg;
+     if(rotationMsg) {
+       tutorial.setText(&quot;With .rotate the red block rotates in the given order.&quot;);
+     }
+     else {
+       tutorial.setText(&quot;With .rotation the blue block&#39;s orientation is dependent only on the three angles and not the order given.&quot;);
+     }
+     if(spaceWorld) {
+         scene.beginDirectAnimation(blueBlock, [rotationX], 4 * frameRate , 7 * frameRate, false);
+         scene.beginDirectAnimation(blueBlock, [rotationY], 2 * frameRate , 7 * frameRate, false);
+         scene.beginDirectAnimation(blueBlock, [rotationZ], 0 * frameRate , 7 * frameRate, false);
+
+         scene.beginDirectAnimation(redBlock, [rotateWorldXYZ], 0 * frameRate , 7 * frameRate, false);
+
+         newLines = &#39;    redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+         newLines += &#39;    redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+         newLines += &#39;    redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);&#39;;
+         pbt.replaceLines([34, 36], newLines);
+     }
+     else {
+         scene.beginDirectAnimation(blueBlock, [rotationY], 4 * frameRate , 7 * frameRate, false);
+         scene.beginDirectAnimation(blueBlock, [rotationX], 2 * frameRate , 7 * frameRate, false);
+         scene.beginDirectAnimation(blueBlock, [rotationZ], 0 * frameRate , 7 * frameRate, false);
+
+         scene.beginDirectAnimation(redBlock, [rotateLocalXYZ], 0 * frameRate , 7 * frameRate, false);
+         scene.beginDirectAnimation(localOriginRed, [rotateLocalXYZ], 0 * frameRate , 7 * frameRate, false);
+
+         newLines = &#39;    redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.LOCAL);\r\n&#39;;
+         newLines += &#39;    redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.LOCAL);\r\n&#39;;
+         newLines += &#39;    redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.LOCAL);&#39;;
+         pbt.replaceLines([34, 36], newLines);
+     }
+     pbt.editOff();
+ }
+</code></pre>
+<p> Consider these in sections</p>
+<h3><a name="sculpt-code" class="anchor" href="#sculpt-code"></a>Sculpt Code</h3><p> starts by switching editing on so that changes can be made. The focus code should show the correct order for the rotations so replacement text for this lines is set up in newLines and then replaces the existing lines from 30 to 32. Editing is switched off at the end.</p>
+<pre><code class="lang-javascript">pbt.editOn();
+var newLines = &#39;    blueBlock.rotation.x = Math.PI/2;\r\n&#39;;
+newLines += &#39;    blueBlock.rotation.y = Math.PI/2;\r\n&#39;;
+newLines += &#39;    blueBlock.rotation.z = Math.PI/2;&#39;;
+pbt.replaceLines([30, 32], newLines);
+</code></pre>
+<p>The line replacement is also carried out for lines 34 to 36 depending on whether WORLD or LOCAL space is active.</p>
+<p>WORLD space</p>
+<pre><code class="lang-javascript">newLines = &#39;    redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+newLines += &#39;    redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+newLines += &#39;    redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);&#39;;
+pbt.replaceLines([34, 36], newLines);
+</code></pre>
+<p>LOCAL space</p>
+<pre><code class="lang-javascript">newLines = &#39;    redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.LOCAL);\r\n&#39;;
+newLines += &#39;    redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.LOCAL);\r\n&#39;;
+newLines += &#39;    redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.LOCAL);&#39;;
+pbt.replaceLines([34, 36], newLines);
+</code></pre>
+<h3><a name="context-code" class="anchor" href="#context-code"></a>Context Code</h3><p>Alternates two messages in the standard dialogue box</p>
+<pre><code class="lang-javascript">rotationMsg    = !rotationMsg;
+if(rotationMsg) {
+    tutorial.setText(&quot;With .rotate the red block rotates in the given order.&quot;);
+}
+else {
+    tutorial.setText(&quot;With .rotation the blue block&#39;s orientation is dependent only on the three angles and not the order given.&quot;);
+}
+</code></pre>
+<p>Animation call for .rotation same whether WORLD or LOCAL space</p>
+<pre><code class="lang-javascript">scene.beginDirectAnimation(blueBlock, [rotationX], 4 * frameRate , 7 * frameRate, false);
+scene.beginDirectAnimation(blueBlock, [rotationY], 2 * frameRate , 7 * frameRate, false);
+scene.beginDirectAnimation(blueBlock, [rotationZ], 0 * frameRate , 7 * frameRate, false);
+</code></pre>
+<p>Animation call for .rotate in WORLD SPACE, no animation for axes in world space.</p>
+<pre><code class="lang-javascript">scene.beginDirectAnimation(redBlock, [rotateWorldXYZ], 0 * frameRate , 7 * frameRate, false);
+</code></pre>
+<p>Animation call for .rotate in LOCAL SPACE for both mesh and its axes.</p>
+<pre><code class="lang-javascript">scene.beginDirectAnimation(redBlock, [rotateLocalXYZ], 0 * frameRate , 7 * frameRate, false);
+scene.beginDirectAnimation(localOriginRed, [rotateLocalXYZ], 0 * frameRate , 7 * frameRate, false);
+</code></pre>
+<h4><a name="animation-codes" class="anchor" href="#animation-codes"></a>Animation Codes</h4><p>For .rotation the animations about the X, Y and Z axes can be kept separate as the order of rotation is does not matter.</p>
+<p>This is the code for the rotation about the X axis, the other two are similar.</p>
+<pre><code class="lang-javascript">var frameRate = 20;
+
+var rotationX = new BABYLON.Animation(&quot;rotationX&quot;, &quot;rotation.x&quot;, frameRate, BABYLON.Animation.ANIMATIONTYPE_FLOAT, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+
+var rotationX_keys = [];
+
+rotationX_keys.push({
+    frame: 0,
+    value: 0
+});
+
+rotationX_keys.push({
+    frame: 5 * frameRate,
+    value: 0
+});
+
+rotationX_keys.push({
+    frame: 7 * frameRate,
+    value: Math.PI/2
+});
+
+rotationX.setKeys(rotationX_keys);
+</code></pre>
+<p>The animations for .rotate are more complicated and requires rotationQuaternions. An animation for each of the 6 possibilities has to be produced separately and each correctly combine the rotation Quaternions for each section of frames. </p>
+<p>The sections of frames are a rest period (section 0), then equal time sections (1, 2 and 3) for each axis in turn.</p>
+<p>First of all the start and end values for each of the axes have to be calculated over a time section of the animation.</p>
+<pre><code class="lang-javascript">var qXStart = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, 0); 
+var qXEnd = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.X, Math.PI/2);
+var qYStart = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, 0); 
+var qYEnd = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Y, Math.PI/2);
+var qZStart = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Z, 0); 
+var qZEnd = new BABYLON.Quaternion.RotationAxis(BABYLON.Axis.Z, Math.PI/2);
+</code></pre>
+<p>Via multiplication the start and end values can be calculated for the section1, section2 and section 3 for both the WORLD and LOCAL space.
+This is shown just for the order X, Y, Z</p>
+<pre><code class="lang-javascript">var qWorldXY = qYEnd.multiply(qXEnd);
+var qWorldXYZ = qZEnd.multiply(qWorldXY);
+
+var qLocalXY = qXEnd.multiply(qYEnd);
+var qLocalXYZ = qLocalXY.multiply(qZEnd);
+</code></pre>
+<p>The WORLD and LOCAL animations can then be constructed (again just for the order X, Y, Z)</p>
+<pre><code class="lang-javascript">var rotateWorldXYZ = new BABYLON.Animation(&quot;rotateX&quot;, &quot;rotationQuaternion&quot;, frameRate, BABYLON.Animation.ANIMATIONTYPE_QUATERNION, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+
+var rotateWorldXYZ_keys = [];
+
+rotateWorldXYZ_keys.push({
+    frame: 0,
+    value: qXStart
+});
+
+rotateWorldXYZ_keys.push({
+    frame: 1 * frameRate,
+    value: qXStart
+});
+
+rotateWorldXYZ_keys.push({
+    frame: 3 * frameRate,
+    value: qXEnd
+});
+
+rotateWorldXYZ_keys.push({
+    frame: 5 * frameRate,
+    value: qWorldXY
+});
+
+rotateWorldXYZ_keys.push({
+    frame: 7 * frameRate,
+    value: qWorldXYZ
+});
+
+rotateWorldXYZ.setKeys(rotateWorldXYZ_keys);
+
+var rotateLocalXYZ = new BABYLON.Animation(&quot;rotateX&quot;, &quot;rotationQuaternion&quot;, frameRate, BABYLON.Animation.ANIMATIONTYPE_QUATERNION, BABYLON.Animation.ANIMATIONLOOPMODE_CONSTANT);
+
+var rotateLocalXYZ_keys = [];
+
+rotateLocalXYZ_keys.push({
+    frame: 0,
+    value: qXStart
+});
+
+rotateLocalXYZ_keys.push({
+    frame: 1 * frameRate,
+    value: qXStart
+});
+
+rotateLocalXYZ_keys.push({
+    frame: 3 * frameRate,
+    value: qXEnd
+});
+
+rotateLocalXYZ_keys.push({
+    frame: 5 * frameRate,
+    value: qLocalXY
+});
+
+rotateLocalXYZ_keys.push({
+    frame: 7 * frameRate,
+    value: qLocalXYZ
+});
+
+rotateLocalXYZ.setKeys(rotateLocalXYZ_keys);
+</code></pre>
+<h2><a name="gui-code" class="anchor" href="#gui-code"></a>GUI Code</h2><p>As usual start with a new PBT</p>
+<pre><code class="lang-javascript">var pbt = new PBT();
+</code></pre>
+<p>Two dialogue boxes are needed a standard one and a selection one</p>
+<h3><a name="standard-dialogue-box" class="anchor" href="#standard-dialogue-box"></a>Standard Dialogue Box</h3><p>This provides the tutorial text and has a <code>next</code> button to step through the tutorial. Note that the box is moved away from the screen edges by 4 pixels on construction. On each press of the next button new text is added into the box and context or sculpt actions carried out.</p>
+<p>The <code>prev</code> button is not used and is hidden and the construction of the standard dialogue box is</p>
+<pre><code class="lang-javascript">optionsSD = {
+    left: &quot;4px&quot;,
+    top: &quot;4px&quot;,
+    text: &quot;Read on for the difference between .rotation and .rotate and follow to the end for examples.&quot;
+}
+var tutorial = new pbt.StandardDialog(optionsSD);  
+tutorial.hidePrev();
+</code></pre>
+<p>Clicking on the <code>next</code> button increments an index which determines the text to be loaded and the action to be undertaken. The text in an array and the actions by the use of a <code>switch</code> statement.</p>
+<pre><code class="lang-javascript">tutorial.getNextButton().onPointerUpObservable.add(function() {       
+    tutorIndex++;   
+    tutorial.setText(tutorTexts[tutorIndex]);
+    nextAction(tutorIndex);
+});
+</code></pre>
+<p>The array for the texts</p>
+<pre><code class="lang-javascript">var tutorIndex = 0;
+var tutorTexts = [
+    &quot;Read on for the difference between .rotation and .rotate and follow to the end for examples.&quot;,
+    &quot;Let&#39;s use this asymmetric mesh to show what&#39;s going on. Keep checking the code on the left.&quot;,
+    &quot;To show the two method, .rotation and .rotate, we need a second block.&quot;,
+    &quot;Now to help lets use some axes with hidden code to keep the seen code less cluttered.&quot;,
+    &quot;We do need to see the code for rotating, the blue block with .rotation and the red block with .rotate .&quot;,
+    &quot;Notice that the orientations of the blocks are different even though the order of axes, X, Y, Z is the same.&quot;,
+    &quot;Euler angles are used with .rotation which produced a fixed orientation whatever order is given.&quot;,
+    &quot;Order is important with .rotate as well as setting WORLD or LOCAL space. Examples coming up soon.&quot;,
+    &quot;For the examples you can choose the order of rotation about XYZ axes and in WORLD or LOCAL space.&quot;,
+    &quot;So you can see them happening the rotations will be slown down and you can now make your choices.&quot;
+];
+</code></pre>
+<p>The nextAction function use <code>switch</code> to determine the action and contains mainly sculpt code with some context code and a little GUI code.</p>
+<p>The context code when the index is 3 enables and shows the axes. When the index is 4 the bule and red meshes are given a rotation.</p>
+<p>The GUI code is in the final case, case: 9, which shows the selection dialogue box and hides the <code>next</code> button.</p>
+<p>The sculpt code adds focus code when the index is 2 and 4 and hides and decorates lines for index 1,2 and 4. Note that in each case decorations are cleared before being set and that the line range to hide increases as focus code is added.</p>
+<pre><code class="lang-javascript">var nextAction = function(index) {                 
+    switch(index) {
+        case 1: 
+            pbt.clearDecorLines();
+            pbt.setDecorLines([18, 24]);
+        break
+        case 2:
+            redBlock.setEnabled(true);
+            pbt.editOn();
+            var newLines = &#39;    redBlock = blueBlock.clone(&quot;redBlock&quot;);\r\n&#39;;
+            newLines += &#39;    redBlock.material = redMat;\r\n&#39;;
+            newLines += &#39;    redBlock.position = new BABYLON.Vector3(4, 3, 4);\r\n&#39;;
+            pbt.clearDecorLines();
+            pbt.replaceLines([26, 26], newLines);
+            pbt.setDecorLines([26, 28]);
+            pbt.hideLines([30, 1011]);
+            pbt.editOff();
+        break
+        case 3:
+            axisX.setEnabled(true);
+            xChar.setEnabled(true);
+            axisY.setEnabled(true);
+            yChar.setEnabled(true);
+            axisZ.setEnabled(true);
+            zChar.setEnabled(true);
+            localOriginRed.setEnabled(true);
+        break
+        case 4:
+              pbt.editOn();
+              var newLines = &#39;\r\n    blueBlock.rotation.x = Math.PI/2;\r\n&#39;;
+              newLines += &#39;    blueBlock.rotation.y = Math.PI/2;\r\n&#39;;
+              newLines += &#39;    blueBlock.rotation.z = Math.PI/2;\r\n&#39;;
+              newLines += &#39;\r\n&#39;;
+              newLines += &#39;    redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+              newLines += &#39;    redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+              newLines += &#39;    redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);\r\n&#39;;
+              pbt.clearDecorLines();
+              pbt.replaceLines([29, 29], newLines);
+              pbt.setDecorLines([30, 32, 34, 36]);
+              pbt.hideLines([38, 1019]);
+              pbt.editOff();
+              blueBlock.rotation = new BABYLON.Vector3(Math.PI/2, Math.PI/2, Math.PI/2);
+              redBlock.rotate(BABYLON.Axis.X, Math.PI/2, BABYLON.Space.WORLD);
+              redBlock.rotate(BABYLON.Axis.Y, Math.PI/2, BABYLON.Space.WORLD);
+              redBlock.rotate(BABYLON.Axis.Z, Math.PI/2, BABYLON.Space.WORLD);
+        break
+        case 9:
+            selector.show();
+            tutorial.hideNext();
+        break
+    }
+}
+</code></pre>
+<h3><a name="selection-dialogue-code" class="anchor" href="#selection-dialogue-code"></a>Selection Dialogue Code</h3><p>The selector dialogue box contains two groups of radio buttons, hence the &quot;R&quot; as the last parameter in creating the groups. Note that the position of the box is set after construction. The -4 because it is set on the right of the screen. The box is hid at the start.</p>
+<p>The <code>order</code> buttons call the six functions discussed earlier. The &#39;space&#39; buttons call <em>worldSpace</em> and <em>localSpace</em> functions also discussed in the context code section.</p>
+<pre><code class="lang-javascript">var orderGroup = new pbt.ButtonGroup(&quot;Order&quot;, &quot;R&quot;);    
+    orderGroup.addButton(&quot;XYZ&quot;, XYZ);
+    orderGroup.addButton(&quot;YXZ&quot;, YXZ);
+    orderGroup.addButton(&quot;YZX&quot;, YZX);
+    orderGroup.addButton(&quot;ZYX&quot;, ZYX);
+    orderGroup.addButton(&quot;ZXY&quot;, ZXY);
+    orderGroup.addButton(&quot;XZY&quot;, XZY);
+
+    var spaceGroup = new pbt.ButtonGroup(&quot;Space&quot;, &quot;R&quot;);  
+    spaceGroup.addButton(&quot;WORLD&quot;, worldSpace, true);
+    spaceGroup.addButton(&quot;LOCAL&quot;, localSpace);
+
+    var selector = new pbt.SelectionDialog({groups:[orderGroup, spaceGroup]});
+    selector.setHorizontalAlignment(BABYLON.GUI.Control.HORIZONTAL_ALIGNMENT_RIGHT);
+    selector.setTop(&quot;-4px&quot;);
+    selector.setLeft(&quot;-4px&quot;);
+    selector.hide();
+</code></pre>
+<h2><a name="sculpt-code" class="anchor" href="#sculpt-code"></a>Sculpt Code</h2><p>The remaining sculpt code hides sections of the playground menu and switches editing off and hides a range of lines. </p>
+<pre><code class="lang-javascript">pbt.hideMenu();
+pbt.editOff();
+pbt.hideLines([26, 1008]);
+</code></pre>
+<h1><a name="live-example" class="anchor" href="#live-example"></a>Live Example</h1><p>The working playground using the above code.</p>
+<ul>
+<li><a href="https://www.babylonjs-playground.com/#KNSQD7">Playground Tutorial - Difference Between .rotation and .rotate</a> - <i class="fa fa-eye" onclick="createIframe('KNSQD7', this)"></i><br/><div class="iframeContainer"></div><br/></li>
+</ul>
+<h1><a name="further-reading" class="anchor" href="#further-reading"></a>Further Reading</h1><ul>
+<li><a href="/How_To/playground_tutorials">Playground Based Tutorial Writing Overview</a><br><a href="/resources/hiding_editor_lines">Starter Guide</a><br><a href="/resources/PBT_previous_and_next">Advanced Guide</a><br><a href="/resources/PBT_slider">Slider Guide</a>   </li>
+</ul>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>

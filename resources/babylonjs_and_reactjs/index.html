@@ -1,0 +1,183 @@
+<!DOCTYPE html><html style="height:100%;"><head lang="en"><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="google-site-verification" content="wcRjktXhF6DAjmhneKS7UatweBIkEF6QfqsNhAYbUgg"><title>Babylon.js Documentation</title><link rel="shortcut icon" href="/img/favicon.ico"><meta name="msapplication-TileColor" content="#ffffff"><meta name="theme-color" content="#ffffff"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/normalize/3.0.3/normalize.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/bundles/37aa8c7514aff1371f0c105a5847611a9179804e.css'/><link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css"><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/jquery.perfect-scrollbar/0.6.3/css/perfect-scrollbar.min.css"><link rel='stylesheet' href='https://d33wubrfki0l68.cloudfront.net/css/5631ef06a1312cbb76f0232ae55f318441e2a6cb/css/main.css'/><link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/styles/default.min.css"></head><body><nav id="menu"></nav><nav class="nav-main" style="position:inherit;"><!-- Hamburger menu : displayed only in small screens--><i class="fa fa-bars" id="mobilemenu"></i><div class="banner"><div class="menu"><div class="do-not-hover" id="home"><a href="/">HOME</a></div><div class="item" id="whatsnew"><a href="/whats-new">What's new</a></div><div class="item" id="feature"><a href="/babylon101">Babylon 101      </a></div><div class="item" id="feature"><a href="/examples">Examples                        </a></div><div class="item" id="How_To"><a href="/How_To">How To...</a></div><div class="item" id="feature"><a href="/features">Features</a></div><div class="item active" id="resources"><a href="/resources">Resources</a></div><div class="item" id="extensions"><a href="/extensions">Extensions</a></div><div class="item" id="samples"><a href="/snippets">Snippets        </a></div><div class="item" id="classes"><a href="/api">API</a></div><div class="item" id="playground"><a href="/playground">Playground</a></div></div><div class="more"><div class="searchbar"><form method="get" action="/search"><input type="text" name="bjsq" placeholder="Search..."><button type="submit"><i class="fa fa-search"></i></button></form></div></div></div></nav><div id="wrapper"><div class="statics-banner"><h1>resources</h1></div><div class="horizontal-separator"></div><div class="static-content"><h1>How to use Babylon.js with ReactJS</h1><br><div class="contentTable"><div class="tocHeader"><span class="tocTitle"><i class="tocIcon fa fa-book"></i>Table of contents</span><span class="tocToggle"><i class="fa fa-arrow-up"></i></span></div><div class="tocContent"><ul>
+<li><a href="#a-brief-example-showing-how-to-use-babylonjs-with-reactjs">A brief example showing how to use BabylonJS with ReactJS</a></li>
+<li><a href="#when-would-you-not-want-to-use-react-with-babylonjs">When would you <strong>NOT</strong> want to use React with BabylonJS</a></li>
+<li><a href="#what-you-need">What you need</a></li>
+<li><a href="#component">Component</a></li>
+<li><a href="#a-few-notes-on-the-code">A few notes on the code</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div></div><div id="staticContent"><h1><a name="babylonjs-with-reactjs" class="anchor" href="#babylonjs-with-reactjs"></a>BabylonJS with ReactJS.</h1><h2><a name="a-brief-example-showing-how-to-use-babylonjs-with-reactjs" class="anchor" href="#a-brief-example-showing-how-to-use-babylonjs-with-reactjs"></a>A brief example showing how to use BabylonJS with ReactJS</h2><p>For anyone interested, it is not difficult to integrate BabylonJS into a ReactJS application. </p>
+<h2><a name="when-would-you-strongnotstrong-want-to-use-react-with-babylonjs" class="anchor" href="#when-would-you-not-want-to-use-react-with-babylonjs"></a>When would you <strong>NOT</strong> want to use React with BabylonJS</h2><p>It is very easy to get a BabylonJS scene inside a ReactJS website; that is a valid scenario and this tutorial will show you how.  If you are building a game for mobile devices then probably you would want to keep all interactions in the canvas and avoid DOM.</p>
+<h2><a name="what-you-need" class="anchor" href="#what-you-need"></a>What you need</h2><p>It&#39;s up to you if you choose Node + NPM/Yarn or static page, so only how to create the component will be discussed here.  Some example projects with ES6/TypeScript are linked at the end.</p>
+<h2><a name="component" class="anchor" href="#component"></a>Component</h2><p>You could put a canvas right on your page itself using code from this component we are going to build, but it&#39;s easy to make a reusable ReactJS component, too!  This is a TypeScript example, so for JavaScript just remove the data types.</p>
+<p>If you are using NPM or Yarn then you need to install the package &#39;babylonjs&#39;.</p>
+<pre><code class="lang-bash">npm install &#39;babylonjs&#39;
+</code></pre>
+<pre><code class="lang-bash">yarn add &#39;babylonjs&#39;
+</code></pre>
+<p>Here is the code for our component.  Create a .tsx or .jsx file and put this code in it:</p>
+<pre><code class="lang-jsx">import * as BABYLON from &#39;babylonjs&#39;;
+
+export type SceneEventArgs = {
+  engine: BABYLON.Engine,
+  scene: BABYLON.Scene,
+  canvas: HTMLCanvasElement
+};
+
+export type SceneProps = {
+  engineOptions?: BABYLON.EngineOptions,
+  adaptToDeviceRatio?: boolean,
+  onSceneMount?: (args: SceneEventArgs) =&gt; void,
+  width?: number,
+  height?: number
+};
+
+export default class Scene extends React.Component&lt;SceneProps &amp; React.HTMLAttributes&lt;HTMLCanvasElement&gt;, {}&gt; {
+
+  private scene: BABYLON.Scene;
+  private engine: BABYLON.Engine;
+  private canvas: HTMLCanvasElement;
+
+  onResizeWindow = () =&gt; {
+    if (this.engine) {
+      this.engine.resize();
+    }
+  }
+
+  componentDidMount () {
+    this.engine = new BABYLON.Engine(
+        this.canvas,
+        true,
+        this.props.engineOptions,
+        this.props.adaptToDeviceRatio
+    );
+
+    let scene = new BABYLON.Scene(this.engine);
+    this.scene = scene;
+
+    if (typeof this.props.onSceneMount === &#39;function&#39;) {
+      this.props.onSceneMount({
+        scene,
+        engine: this.engine,
+        canvas: this.canvas
+      });
+    } else {
+      console.error(&#39;onSceneMount function not available&#39;);
+    }
+
+    // Resize the babylon engine when the window is resized
+    window.addEventListener(&#39;resize&#39;, this.onResizeWindow);
+  }
+
+  componentWillUnmount () {
+    window.removeEventListener(&#39;resize&#39;, this.onResizeWindow);
+  }
+
+  onCanvasLoaded = (c : HTMLCanvasElement) =&gt; {
+    if (c !== null) {
+      this.canvas = c;
+    }
+  }
+
+  render () {
+    // &#39;rest&#39; can contain additional properties that you can flow through to canvas:
+    // (id, className, etc.)
+    let { width, height, ...rest } = this.props;
+
+    let opts: any = {};
+
+    if (width !== undefined &amp;&amp; height !== undefined) {
+      opts.width = width;
+      opts.height = height;
+    }
+
+    return (
+      &lt;canvas
+        {...opts}
+        ref={this.onCanvasLoaded}
+      /&gt;
+    )
+  }
+}
+</code></pre>
+<blockquote>
+<p>In 80 lines we have: </p>
+<ul>
+<li>Reusable ReactJS Component for BabylonJS.</li>
+<li>Scene will resize the engine when canvas is resized.</li>
+<li>We only need to add this component to a page and specify a method to run.</li>
+</ul>
+</blockquote>
+<p>Here is the page using our component.  It will load the default playground scene in our ReactJS website.</p>
+<pre><code class="lang-jsx">import * as React from &#39;react&#39;;
+import * as BABYLON from &#39;babylonjs&#39;;
+import BabylonScene from &#39;./SceneComponent&#39;; // import the component above linking to file we just created.
+
+class PageWithScene extends React.Component&lt;{}, {}&gt; {
+    onSceneMount = (e: SceneEventArgs) =&gt; {
+        const { canvas, scene, engine } = e;
+
+        // This creates and positions a free camera (non-mesh)
+        var camera = new BABYLON.FreeCamera(&quot;camera1&quot;, new BABYLON.Vector3(0, 5, -10), scene);
+
+        // This targets the camera to scene origin
+        camera.setTarget(BABYLON.Vector3.Zero());
+
+        // This attaches the camera to the canvas
+        camera.attachControl(canvas, true);
+
+        // This creates a light, aiming 0,1,0 - to the sky (non-mesh)
+        var light = new BABYLON.HemisphericLight(&quot;light1&quot;, new BABYLON.Vector3(0, 1, 0), scene);
+
+        // Default intensity is 1. Let&#39;s dim the light a small amount
+        light.intensity = 0.7;
+
+        // Our built-in &#39;sphere&#39; shape. Params: name, subdivs, size, scene
+        var sphere = BABYLON.Mesh.CreateSphere(&quot;sphere1&quot;, 16, 2, scene);
+
+        // Move the sphere upward 1/2 its height
+        sphere.position.y = 1;
+
+        // Our built-in &#39;ground&#39; shape. Params: name, width, depth, subdivs, scene
+        var ground = BABYLON.Mesh.CreateGround(&quot;ground1&quot;, 6, 6, 2, scene);
+
+        engine.runRenderLoop(() =&gt; {
+            if (scene) {
+                scene.render();
+            }
+        });
+    }
+
+    render() {               
+        return (
+            &lt;div&gt;
+                &lt;BabylonScene onSceneMount={this.onSceneMount} /&gt;
+            &lt;/div&gt;
+        )
+    }
+}
+</code></pre>
+<h2><a name="a-few-notes-on-the-code" class="anchor" href="#a-few-notes-on-the-code"></a>A few notes on the code</h2><p>This will show the basic playground in your website!  Note only that our &#39;BABYLON.Scene&#39; was already instantiated in componentDidMount() of our component.</p>
+<h2><a name="conclusion" class="anchor" href="#conclusion"></a>Conclusion</h2><p>Integrating BabylonJS into a ReactJS website turns out to be not so tough.  Since BabylonJS 3.1 we can now use ES6 imports not only for BabylonJS, but also for GUI and more.</p>
+<p>If the above component we created does everything you need then that&#39;s all you will need and you are all set.  There is an NPM project called &#39;react-babylonjs&#39; that has additional methods and properties and also has redux middleware.  That NPM is used in a couple of starter kits - One for ES6 and a TypeScript one for create-react-app:</p>
+<ul>
+<li><a href="https://github.com/brianzinn/create-react-app-typescript-babylonjs">Create React App + TypeScript + BabylonJS (GUI + Physics)</a></li>
+<li><a href="https://github.com/brianzinn/react-redux-babylonjs-starter-kit">ES6 + BabylonJS</a></li>
+</ul>
+</div></div></div><footer class="footer"><div class="footer-item"><a href="https://www.babylonjs.com" target="_blank"><i class="fa fa-home"></i>    Babylonjs.com</a></div><div class="footer-item"><a href="https://forum.babylonjs.com" target="_blank"><i class="fa fa-html5"></i>    Forum</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Babylon.js" target="_blank"><i class="fa fa-github"></i>    Github</a></div><div class="footer-item"><a href="https://github.com/BabylonJS/Documentation" target="_blank"><i class="fa fa-code-fork"></i>    Contribute </a></div><div class="footer-item"><a href="https://www.netlify.com" target="_blank"><i class="fa fa-heart"></i> Deployed by netlify            </a></div></footer><script src='https://d33wubrfki0l68.cloudfront.net/js/6c5a0bab19aff39c2bf01a14bac330e9140b5cef/js/jquery.min.js'></script><script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.10.0/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/slideout/0.1.9/slideout.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/f48cb004d8126ebe06fa08e7ec362ddee7ff288d/js/index.js'></script><script>(function (i, s, o, g, r, a, m) {
+    i['GoogleAnalyticsObject'] = r;
+    i[r] = i[r] || function () {
+                (i[r].q = i[r].q || []).push(arguments)
+            };
+    i[r].l = 1 * new Date();
+    a = s.createElement(o);
+    m = s.getElementsByTagName(o)[0];
+    a.async = 1;
+    a.src = g;
+    m.parentNode.insertBefore(a, m)
+})(window, document, 'script', '//www.google-analytics.com/analytics.js', 'ga');
+ga('create', 'UA-41767310-3', 'auto');
+ga('send', 'pageview');</script><!-- HIGHLIGHT JS--><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/highlight.min.js"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.6/languages/javascript.min.js"></script><script src='https://d33wubrfki0l68.cloudfront.net/js/8e913e925d28c3a3ec0d9d587b542f849196f745/js/static.js'></script><script>$('code').each(function(){
+    $(this).text($(this).text().replace(/&nbsp;/gi, ''));
+});
+hljs.initHighlightingOnLoad();</script></body></html>
