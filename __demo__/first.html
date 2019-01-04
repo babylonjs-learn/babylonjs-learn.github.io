@@ -27,12 +27,69 @@
 <script>
     let canvas = document.getElementById('renderCanvas');
     let engine = new BABYLON.Engine(canvas, true);
-        let scene = new BABYLON.Scene(engine);
-        let camera = new BABYLON.ArcRotateCamera(
-            'Camera', Math.PI / 2, Math.PI / 2, 2, new BABYLON.Vector3(0, 0, 5), scene);
-        let light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(1, 1, 0), scene);
-        let light2 = new BABYLON.PointLight('light2', new BABYLON.Vector3(0, 1, -1), scene);
-        let sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2 }, scene);
+    let scene = new BABYLON.Scene(engine);
+    // let camera = new BABYLON.ArcRotateCamera(
+    //     'Camera', Math.PI / 2, Math.PI / 2, 15, new BABYLON.Vector3(0, 25, 0), scene);
+    let camera = new BABYLON.UniversalCamera(
+        'Camera', new BABYLON.Vector3(0, 25, 0), scene);
+    camera.attachControl(canvas, true);
+
+    let light1 = new BABYLON.HemisphericLight('light1', new BABYLON.Vector3(100, 100, 0), scene);
+    light1.intensity = 0.3;
+
+    let light2 = new BABYLON.PointLight('light2', new BABYLON.Vector3(0, 16, 0), scene);
+    light2.diffuse = new BABYLON.Color3(1, 1, 1);
+    light2.specular = new BABYLON.Color3(0, 0, 0);
+
+    // let sphere = BABYLON.MeshBuilder.CreateSphere('sphere', { diameter: 2 }, scene);
+
+    let ground = BABYLON.MeshBuilder.CreateGround('ground', {
+        width: 100, height: 100, subdivisions: 4,
+        sideOrientation: BABYLON.Mesh.DOUBLESIDE
+    }, scene);
+
+    let ceiling = BABYLON.MeshBuilder.CreatePlane('ceiling', {
+        width: 100, height: 100
+    }, scene);
+    ceiling.rotation.x = -Math.PI / 2;
+    ceiling.position.y += 32;
+    // ceiling.position = new BABYLON.Vector3(0, .2, 0);
+    let materialCeiling = new BABYLON.StandardMaterial('ceiling', scene);
+    materialCeiling.diffuseTexture = new BABYLON.Color3(1, 1, 1);
+
+    let materialFloor = new BABYLON.StandardMaterial('floor', scene);
+    materialFloor.diffuseTexture = new BABYLON.Texture('images/tile-80-floor.jpg', scene);
+    materialFloor.diffuseTexture.uScale = 100 / 8;
+    materialFloor.diffuseTexture.vScale = 100 / 8;
+    // materialWoodenFloor.diffuseTexture.uOffset = 2;
+    // materialWoodenFloor.diffuseTexture.vOffset = 2;
+    ground.material = materialFloor;
+
+    let materialWallpaper = new BABYLON.StandardMaterial('wallpaper', scene);
+    materialWallpaper.diffuseTexture = new BABYLON.Texture('images/tile-floor.jpg', scene);
+    materialWallpaper.diffuseTexture.uScale = 32 / 3;
+    materialWallpaper.diffuseTexture.vScale = 100 / 3;
+    // materialWoodenFloor.diffuseTexture.uOffset = 2;
+    // materialWoodenFloor.diffuseTexture.vOffset = 2;
+
+    let wallWest = BABYLON.MeshBuilder.CreateBox('wallWest', {
+        width: 1,
+        height: 32,
+        depth: 100
+    }, scene);
+    wallWest.material = materialWallpaper;
+    let wallEast = wallWest.clone();
+    wallEast.id = 'wallEast';
+    let wallNorth = wallWest.clone();
+    wallNorth.id = 'wallNorth';
+    wallNorth.rotation.y = Math.PI / 2;
+    let wallSouth = wallNorth.clone();
+    wallSouth.id = 'wallSouth';
+
+    wallWest.position = new BABYLON.Vector3(-50, 16, 0);
+    wallEast.position = new BABYLON.Vector3(50, 16, 0);
+    wallNorth.position = new BABYLON.Vector3(0, 16, -50);
+    wallSouth.position = new BABYLON.Vector3(0, 16, 50);
 
     engine.runRenderLoop(() => {
         scene.render();
